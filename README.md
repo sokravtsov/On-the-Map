@@ -8,8 +8,8 @@ Students will create an app with a map that shows information posted by other st
 This project will give students an opportunity to post and retrieve data from a network resource using Apple’s networking framework. It will also allow students to authenticate a user.
 
 # Skills
-Accessing networked data using Apple’s URL loading framework
-Authenticating a user using over a network connection
-Creating user interfaces that are responsive, and communicate network activity
-Use Core Location and the MapKit framework for to display annotated pins on a map
+- Accessing networked data using Apple’s URL loading framework
+- Authenticating a user using over a network connection
+- Creating user interfaces that are responsive, and communicate network activity
+- Use Core Location and the MapKit framework for to display annotated pins on a map
 
