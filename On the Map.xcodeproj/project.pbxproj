@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		82228D701DC7E26D00F64F54 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82228D6F1DC7E26D00F64F54 /* LoginViewController.swift */; };
 		A18557E81DC7899D004A8C02 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18557E71DC7899D004A8C02 /* AppDelegate.swift */; };
 		A18557EA1DC7899D004A8C02 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18557E91DC7899D004A8C02 /* ViewController.swift */; };
 		A18557ED1DC7899D004A8C02 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A18557EB1DC7899D004A8C02 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		82228D6F1DC7E26D00F64F54 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A18557E41DC7899D004A8C02 /* On the Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A18557E71DC7899D004A8C02 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A18557E91DC7899D004A8C02 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 		A18557E61DC7899D004A8C02 /* On the Map */ = {
 			isa = PBXGroup;
 			children = (
+				82228D6F1DC7E26D00F64F54 /* LoginViewController.swift */,
 				A18557E71DC7899D004A8C02 /* AppDelegate.swift */,
 				A18557E91DC7899D004A8C02 /* ViewController.swift */,
 				A18557EB1DC7899D004A8C02 /* Main.storyboard */,
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82228D701DC7E26D00F64F54 /* LoginViewController.swift in Sources */,
 				A18557EA1DC7899D004A8C02 /* ViewController.swift in Sources */,
 				A18557E81DC7899D004A8C02 /* AppDelegate.swift in Sources */,
 			);
@@ -259,6 +263,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9QTU947L2N;
 				INFOPLIST_FILE = "On the Map/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -272,6 +277,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 9QTU947L2N;
 				INFOPLIST_FILE = "On the Map/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -300,6 +306,7 @@
 				A18557F81DC7899D004A8C02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

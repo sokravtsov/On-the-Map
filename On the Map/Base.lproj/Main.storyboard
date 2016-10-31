@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="YvS-93-uV4">
             <objects>
-                <viewController id="OOq-ec-sA4" sceneMemberID="viewController">
+                <viewController id="OOq-ec-sA4" customClass="LoginViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BtJ-db-vyY"/>
                         <viewControllerLayoutGuide type="bottom" id="EWd-eu-Y6O"/>
@@ -39,7 +39,7 @@
                                     <constraint firstAttribute="height" constant="44" id="kXs-z3-wfb"/>
                                 </constraints>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="   Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jbp-s3-hFu">
@@ -48,14 +48,15 @@
                                     <constraint firstAttribute="height" constant="44" id="hEv-Aa-PJr"/>
                                 </constraints>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i8A-Ea-iTY">
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.93337893486022949" green="0.33025801181793213" blue="0.18632897734642029" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="IjK-eU-CC0"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -64,28 +65,30 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="tDf-Wq-3EJ"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <state key="normal" title="Don't have an account? Sing Up">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7w-qq-uz0">
-                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.28574752807617188" green="0.41553491353988647" blue="0.70801019668579102" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="A8w-kV-3md"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Sign in with Facebook">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.94259148836135864" green="0.46400636434555054" blue="0.18869209289550781" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="EWd-eu-Y6O" firstAttribute="top" secondItem="J7w-qq-uz0" secondAttribute="bottom" constant="8" id="6oh-a3-Qen"/>
+                            <constraint firstItem="EWd-eu-Y6O" firstAttribute="top" secondItem="J7w-qq-uz0" secondAttribute="bottom" constant="16" id="6oh-a3-Qen"/>
                             <constraint firstItem="J7w-qq-uz0" firstAttribute="leading" secondItem="BB6-AN-Twr" secondAttribute="leading" constant="16" id="8bW-cA-6Wb"/>
                             <constraint firstAttribute="trailing" secondItem="i8A-Ea-iTY" secondAttribute="trailing" constant="14" id="Bc4-iv-EdM"/>
                             <constraint firstItem="312-Bm-1Nj" firstAttribute="top" secondItem="i8A-Ea-iTY" secondAttribute="bottom" constant="8" id="Enh-fv-wFA"/>
                             <constraint firstItem="Jbp-s3-hFu" firstAttribute="top" secondItem="Gf7-bk-7b7" secondAttribute="bottom" constant="8" id="FQA-Za-Wuh"/>
-                            <constraint firstItem="Jbp-s3-hFu" firstAttribute="leading" secondItem="BB6-AN-Twr" secondAttribute="leading" constant="18" id="GLM-EK-b9K"/>
+                            <constraint firstItem="Jbp-s3-hFu" firstAttribute="leading" secondItem="BB6-AN-Twr" secondAttribute="leading" constant="16" id="GLM-EK-b9K"/>
                             <constraint firstAttribute="trailing" secondItem="Gf7-bk-7b7" secondAttribute="trailing" constant="14" id="Igy-vG-Ldc"/>
                             <constraint firstAttribute="trailing" secondItem="J7w-qq-uz0" secondAttribute="trailing" constant="14" id="J2P-TL-0lG"/>
                             <constraint firstItem="bge-1K-UC6" firstAttribute="top" secondItem="BtJ-db-vyY" secondAttribute="bottom" constant="50" id="ONh-4P-C6j"/>
@@ -105,10 +108,17 @@
                             <constraint firstItem="HkR-pP-EXb" firstAttribute="top" secondItem="bge-1K-UC6" secondAttribute="bottom" constant="41" id="xv5-R0-DJW"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="Gf7-bk-7b7" id="YDl-Xr-PaX"/>
+                        <outlet property="facebookButton" destination="J7w-qq-uz0" id="tVa-HR-Cu2"/>
+                        <outlet property="loginButton" destination="i8A-Ea-iTY" id="Jt6-tI-6DN"/>
+                        <outlet property="passwordTextField" destination="Jbp-s3-hFu" id="xlN-de-zpE"/>
+                        <outlet property="sigupButton" destination="312-Bm-1Nj" id="kF8-XD-cBN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5U0-zj-HiR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-775.20000000000005" y="194.75262368815595"/>
+            <point key="canvasLocation" x="-695" y="36"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
