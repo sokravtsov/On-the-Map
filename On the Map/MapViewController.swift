@@ -32,7 +32,6 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
         
         self.mapView.showsUserLocation = true
         
-        self.mapView.
 
     }
     
