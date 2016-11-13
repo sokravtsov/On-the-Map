@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		82228D701DC7E26D00F64F54 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82228D6F1DC7E26D00F64F54 /* LoginViewController.swift */; };
+		82A1C2CC1DD906E300D35312 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A1C2CB1DD906E300D35312 /* InformationPostingViewController.swift */; };
 		A134525C1DC8A52C00111DB2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525B1DC8A52C00111DB2 /* MapViewController.swift */; };
 		A134525E1DC8A57E00111DB2 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525D1DC8A57E00111DB2 /* TableViewController.swift */; };
 		A13452601DC8A60B00111DB2 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525F1DC8A60B00111DB2 /* TableViewCell.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		82228D6F1DC7E26D00F64F54 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		82A1C2CB1DD906E300D35312 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
 		A134525B1DC8A52C00111DB2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		A134525D1DC8A57E00111DB2 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A134525F1DC8A60B00111DB2 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				82228D6F1DC7E26D00F64F54 /* LoginViewController.swift */,
+				82A1C2CB1DD906E300D35312 /* InformationPostingViewController.swift */,
 				A134525B1DC8A52C00111DB2 /* MapViewController.swift */,
 				A18557E71DC7899D004A8C02 /* AppDelegate.swift */,
 				A18557E91DC7899D004A8C02 /* ViewController.swift */,
@@ -153,6 +156,7 @@
 				A18557EA1DC7899D004A8C02 /* ViewController.swift in Sources */,
 				A18557E81DC7899D004A8C02 /* AppDelegate.swift in Sources */,
 				A13452601DC8A60B00111DB2 /* TableViewCell.swift in Sources */,
+				82A1C2CC1DD906E300D35312 /* InformationPostingViewController.swift in Sources */,
 				A134525E1DC8A57E00111DB2 /* TableViewController.swift in Sources */,
 				A134525C1DC8A52C00111DB2 /* MapViewController.swift in Sources */,
 			);
