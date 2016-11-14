@@ -23,7 +23,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
         super.viewDidLoad()
         
         self.locationManager.delegate = self
-        
+
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         self.locationManager.requestWhenInUseAuthorization()
