@@ -85,7 +85,7 @@
                                 </state>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.94259148836135864" green="0.46400636434555054" blue="0.18869209289550781" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.16128939390182495" green="0.21184679865837097" blue="0.25230598449707031" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="EWd-eu-Y6O" firstAttribute="top" secondItem="J7w-qq-uz0" secondAttribute="bottom" constant="16" id="6oh-a3-Qen"/>
                             <constraint firstItem="J7w-qq-uz0" firstAttribute="leading" secondItem="BB6-AN-Twr" secondAttribute="leading" constant="16" id="8bW-cA-6Wb"/>
@@ -205,16 +205,16 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="HVM-c4-YnB"/>
-                        <barButtonItem image="map" id="XVa-O6-XjE"/>
+                        <barButtonItem image="mapSelected" id="XVa-O6-XjE"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="xcf-s5-8k0"/>
                         <barButtonItem image="list" id="YIg-Hu-9r4"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Uli-Jd-bIo"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="On the Map" id="aSh-Mp-xwO">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="msv-fT-0ju"/>
+                        <barButtonItem key="leftBarButtonItem" image="back" id="msv-fT-0ju"/>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="refresh" id="woO-qM-Sln"/>
-                            <barButtonItem image="pin" id="kNQ-Ft-qI8"/>
+                            <barButtonItem image="refresh" id="woO-qM-Sln"/>
+                            <barButtonItem image="addPin" id="kNQ-Ft-qI8"/>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -476,14 +476,14 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="feq-oZ-k2N"/>
                         <barButtonItem image="map" id="GQw-Kd-Kdk"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="slT-yp-qim"/>
-                        <barButtonItem image="list" id="7iC-cQ-eNa"/>
+                        <barButtonItem image="listSelected" id="7iC-cQ-eNa"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="AcY-EX-QGk"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="On the Map" id="7Uj-55-aBQ">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="qoo-ue-uIS"/>
+                        <barButtonItem key="leftBarButtonItem" image="back" id="qoo-ue-uIS"/>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="refresh" id="VGD-1q-7No"/>
-                            <barButtonItem image="pin" id="MSs-xI-QdH"/>
+                            <barButtonItem image="refresh" id="VGD-1q-7No"/>
+                            <barButtonItem image="addPin" id="MSs-xI-QdH"/>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -500,9 +500,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Udacity" width="256" height="256"/>
-        <image name="list" width="32" height="32"/>
-        <image name="map" width="32" height="32"/>
-        <image name="pin" width="32" height="32"/>
+        <image name="Udacity" width="62" height="62"/>
+        <image name="addPin" width="24" height="24"/>
+        <image name="back" width="24" height="24"/>
+        <image name="list" width="75" height="50"/>
+        <image name="listSelected" width="75" height="50"/>
+        <image name="map" width="75" height="50"/>
+        <image name="mapSelected" width="75" height="50"/>
+        <image name="refresh" width="24" height="24"/>
     </resources>
 </document>
