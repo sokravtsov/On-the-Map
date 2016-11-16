@@ -12,11 +12,21 @@ import CoreLocation
 
 class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    // MARK: Variables
+    
+    ///Apple Map View
     @IBOutlet weak var mapView: MKMapView!
+    
+    ///Logout Button
     @IBOutlet weak var logoutButton: UIBarButtonItem!
+    
+    ///Pin Button
     @IBOutlet weak var pinButton: UIBarButtonItem!
+    
+    ///Button for update data from server
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
+    ///Create LocationManager
     var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -36,6 +46,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     }
     
     // MARK: Location Delegate Methods
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let location = locations.last
@@ -52,6 +63,42 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print ("Errors: " + error.localizedDescription)
     }
+    
+    ///Method to get multiple student locations 
+    func getStudentLocations() {
+        let request = NSMutableURLRequest(url: URL(string: "\(DataLoader.mainBaseURL)+\(DataLoader.baseURLforStudentLocation)")!)
+        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) {data, responce, error in
+            if error != nil {
+                return
+            }
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+        }
+        task.resume()
+    }
+    
+    ///Method to get a single student location
+    func getStudentLocation() {
+        let request = NSMutableURLRequest(url: URL(string: "\(DataLoader.mainBaseURL)+\(DataLoader.baseURLforStudentLocation)")!)
+        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil {
+                return
+            }
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+        }
+        task.resume()
+
+    }
+    
+    
+    
+    
+    
     
     
     
