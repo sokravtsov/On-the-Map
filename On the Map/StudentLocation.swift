@@ -46,7 +46,6 @@ class StudentLocation{
     
     ///Base initializer
     public init (createdAt: String?, firstName: String?, lastName: String?, latitude: Float?, longitude: Float?, mapString: String?, mediaURL: String?, objectId: String?, uniqueKey: String?, updatedAt: String?) {
-        
         self.createdAt = createdAt
         self.firstName = firstName
         self.lastName = lastName

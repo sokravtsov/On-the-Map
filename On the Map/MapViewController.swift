@@ -12,7 +12,7 @@ import CoreLocation
 
 class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
-    // MARK: Variables
+    // MARK: UI Variables
     
     ///Apple Map View
     @IBOutlet weak var mapView: MKMapView!
@@ -26,27 +26,24 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     ///Button for update data from server
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
+    // MARK: Variables
+    
     ///Create LocationManager
     var locationManager = CLLocationManager()
     
+    // MARK: Methods
+    
+    ///Override of **viewDidLoad()** method
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.locationManager.delegate = self
-
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
         self.locationManager.requestWhenInUseAuthorization()
-        
         self.locationManager.startUpdatingLocation()
-        
         self.mapView.showsUserLocation = true
-        
-
     }
     
-    // MARK: Location Delegate Methods
-    
+    ///Method for update location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let location = locations.last
@@ -60,6 +57,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
         self.locationManager.stopUpdatingLocation()
     }
     
+    ///Method for checking errors
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print ("Errors: " + error.localizedDescription)
     }
@@ -95,6 +93,11 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
 
     }
     
+    ///Action for add  location
+    @IBAction func addLocation(_ sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: "InformationPosting", sender: self)
+        print ("GOOOOOD!")
+    }
     
     
     

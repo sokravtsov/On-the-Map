@@ -34,7 +34,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="   Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gf7-bk-7b7">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gf7-bk-7b7">
                                 <color key="backgroundColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="kXs-z3-wfb"/>
@@ -43,7 +43,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="   Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jbp-s3-hFu">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jbp-s3-hFu">
                                 <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="hEv-Aa-PJr"/>
@@ -73,6 +73,9 @@
                                 <state key="normal" title="Don't have an account? Sing Up">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="openUdacitySite:" destination="OOq-ec-sA4" eventType="touchUpInside" id="zaZ-t3-tm7"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7w-qq-uz0">
                                 <color key="backgroundColor" red="0.28574752807617188" green="0.41553491353988647" blue="0.70801019668579102" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -122,7 +125,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5U0-zj-HiR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1436" y="168"/>
+            <point key="canvasLocation" x="-727" y="168"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="QPT-d6-Zxm">
@@ -140,7 +143,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="86Y-pj-nfU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-382" y="168"/>
+            <point key="canvasLocation" x="-55" y="168"/>
         </scene>
         <!--List-->
         <scene sceneID="ol8-vt-ArS">
@@ -157,7 +160,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qwU-rH-rs4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="700" y="528"/>
+            <point key="canvasLocation" x="700" y="497"/>
         </scene>
         <!--Map-->
         <scene sceneID="I2u-dv-j3E">
@@ -174,7 +177,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bED-0X-IIt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="700" y="-239"/>
+            <point key="canvasLocation" x="700" y="-170"/>
         </scene>
         <!--On the Map-->
         <scene sceneID="oQ0-Nj-mDA">
@@ -211,10 +214,18 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Uli-Jd-bIo"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="On the Map" id="aSh-Mp-xwO">
-                        <barButtonItem key="leftBarButtonItem" image="back" id="msv-fT-0ju"/>
+                        <barButtonItem key="leftBarButtonItem" image="back" id="msv-fT-0ju">
+                            <connections>
+                                <segue destination="OOq-ec-sA4" kind="presentation" id="MSa-aZ-o7G"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem image="refresh" id="woO-qM-Sln"/>
-                            <barButtonItem image="addPin" id="kNQ-Ft-qI8"/>
+                            <barButtonItem image="addPin" id="kNQ-Ft-qI8">
+                                <connections>
+                                    <segue destination="boe-1t-YJO" kind="presentation" id="0rL-bL-Dgg"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -227,12 +238,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oGp-SY-gco" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1536.8" y="-240.62968515742131"/>
+            <point key="canvasLocation" x="1375" y="-170"/>
         </scene>
         <!--Information Posting View Controller-->
         <scene sceneID="vpb-2h-6e1">
             <objects>
-                <viewController id="boe-1t-YJO" customClass="InformationPostingViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InformationPosting" useStoryboardIdentifierAsRestorationIdentifier="YES" id="boe-1t-YJO" customClass="InformationPostingViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Vw-g5-Qfz"/>
                         <viewControllerLayoutGuide type="bottom" id="RSh-Mp-1KG"/>
@@ -245,6 +256,9 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zbj-US-gkn">
                                         <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <segue destination="BQl-tr-Cup" kind="presentation" id="Zq3-LI-5IF"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="studying" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFY-5r-ppf">
                                         <constraints>
@@ -323,6 +337,9 @@
                                             <color key="titleColor" red="0.26198035478591919" green="0.46175932884216309" blue="0.64610868692398071" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="Lf8-27-k53" kind="presentation" id="0yj-M3-ny4"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.87870031595230103" green="0.87773352861404419" blue="0.86697179079055786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -363,12 +380,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sop-GO-mQF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1436" y="878"/>
+            <point key="canvasLocation" x="2162" y="149"/>
         </scene>
         <!--Geocode View Controller-->
         <scene sceneID="pQ7-9C-TJu">
             <objects>
-                <viewController id="Lf8-27-k53" customClass="GeocodeViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GeocodeView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Lf8-27-k53" customClass="GeocodeViewController" customModule="On_the_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qSv-1y-Y5z"/>
                         <viewControllerLayoutGuide type="bottom" id="P06-Ld-QFK"/>
@@ -399,6 +416,9 @@
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="boe-1t-YJO" kind="presentation" id="Jf6-Uw-zUj"/>
+                                </connections>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="hvX-oe-qxs">
                                 <constraints>
@@ -440,7 +460,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YkZ-mP-bRN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1436" y="1557"/>
+            <point key="canvasLocation" x="2817" y="149"/>
         </scene>
         <!--On the Map-->
         <scene sceneID="AEv-aL-Ng1">
@@ -463,7 +483,7 @@
                                         <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kdi-fv-Grh" id="9Cv-ks-HNx">
-                                            <frame key="frameInset" width="375" height="44"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -480,10 +500,18 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="AcY-EX-QGk"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="On the Map" id="7Uj-55-aBQ">
-                        <barButtonItem key="leftBarButtonItem" image="back" id="qoo-ue-uIS"/>
+                        <barButtonItem key="leftBarButtonItem" image="back" id="qoo-ue-uIS">
+                            <connections>
+                                <segue destination="OOq-ec-sA4" kind="presentation" id="idm-Xj-5qv"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem image="refresh" id="VGD-1q-7No"/>
-                            <barButtonItem image="addPin" id="MSs-xI-QdH"/>
+                            <barButtonItem image="addPin" id="MSs-xI-QdH">
+                                <connections>
+                                    <segue destination="boe-1t-YJO" kind="presentation" id="4NN-TJ-Hv9"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -496,7 +524,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uyx-sa-mQP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1536.8" y="527.58620689655174"/>
+            <point key="canvasLocation" x="1374" y="496"/>
         </scene>
     </scenes>
     <resources>
@@ -509,4 +537,9 @@
         <image name="mapSelected" width="75" height="50"/>
         <image name="refresh" width="24" height="24"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="5VJ-wA-ZRT"/>
+        <segue reference="idm-Xj-5qv"/>
+        <segue reference="4NN-TJ-Hv9"/>
+    </inferredMetricsTieBreakers>
 </document>
