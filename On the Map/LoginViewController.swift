@@ -48,15 +48,11 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
         passwordTextField.isSecureTextEntry = true
         
         if (FBSDKAccessToken.current() != nil) {
-            // User is already logged in, do work such as go to next view controller.
+            self.performSegue(withIdentifier: "Login", sender: self)
         } else {
             facebookButton.readPermissions = ["public_profile", "email", "user_friends"]
-//            facebookButton.delegate = self
-//            let loginView : FBSDKLoginButton = FBSDKLoginButton()
-//            self.view.addSubview(loginView)
-//            loginView.center = self.view.center
-//            loginView.readPermissions = ["public_profile", "email", "user_friends"]
-//            loginView.delegate = self
+            facebookButton.delegate = self
+            facebookButton.readPermissions = ["public_profile", "email", "user_friends"]
         }
     }
     
@@ -142,6 +138,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         print("User Logged In")
+        self.performSegue(withIdentifier: "Login", sender: self)
         
         if ((error) != nil) {
             // Process error

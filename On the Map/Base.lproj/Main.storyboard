@@ -70,7 +70,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BQl-tr-Cup" kind="presentation" id="5VJ-wA-ZRT"/>
+                                    <segue destination="BQl-tr-Cup" kind="presentation" identifier="Login" id="5VJ-wA-ZRT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="312-Bm-1Nj">
@@ -86,7 +86,7 @@
                                     <action selector="openUdacitySite:" destination="OOq-ec-sA4" eventType="touchUpInside" id="zaZ-t3-tm7"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7w-qq-uz0">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7w-qq-uz0" customClass="FBSDKLoginButton">
                                 <rect key="frame" x="16" y="607" width="345" height="44"/>
                                 <color key="backgroundColor" red="0.28574752807617188" green="0.41553491353988647" blue="0.70801019668579102" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -127,7 +127,7 @@
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="Gf7-bk-7b7" id="YDl-Xr-PaX"/>
-                        <outlet property="facebookButton" destination="J7w-qq-uz0" id="tVa-HR-Cu2"/>
+                        <outlet property="facebookButton" destination="J7w-qq-uz0" id="SWw-cw-qL2"/>
                         <outlet property="loginButton" destination="i8A-Ea-iTY" id="Jt6-tI-6DN"/>
                         <outlet property="passwordTextField" destination="Jbp-s3-hFu" id="xlN-de-zpE"/>
                         <outlet property="sigupButton" destination="312-Bm-1Nj" id="kF8-XD-cBN"/>
@@ -160,7 +160,7 @@
             <objects>
                 <navigationController id="z3g-AG-grf" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="List" image="list" id="GVR-sX-Yml"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gvF-Kg-p3h">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gvF-Kg-p3h">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -177,7 +177,7 @@
             <objects>
                 <navigationController id="R4c-3R-Nbx" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="JrL-4z-PmT"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="JE2-LV-pqr">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JE2-LV-pqr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -508,7 +508,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kdi-fv-Grh" id="9Cv-ks-HNx">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
