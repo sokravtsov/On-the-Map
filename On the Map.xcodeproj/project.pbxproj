@@ -12,6 +12,8 @@
 		82A1C2CC1DD906E300D35312 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A1C2CB1DD906E300D35312 /* InformationPostingViewController.swift */; };
 		82FA5B3C1E1ACEBA00C50759 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FA5B3B1E1ACEBA00C50759 /* Constants.swift */; };
 		82FA5B471E1CEAA200C50759 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B431E1CEAA200C50759 /* FBSDKCoreKit.framework */; };
+		82FA5B4D1E1CF5F300C50759 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B4B1E1CF5F300C50759 /* Bolts.framework */; };
+		82FA5B4E1E1CF5F300C50759 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B4C1E1CF5F300C50759 /* FBSDKLoginKit.framework */; };
 		82FEC44A1DDA529B005A3744 /* GeocodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FEC4491DDA529B005A3744 /* GeocodeViewController.swift */; };
 		A134525C1DC8A52C00111DB2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525B1DC8A52C00111DB2 /* MapViewController.swift */; };
 		A134525E1DC8A57E00111DB2 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525D1DC8A57E00111DB2 /* TableViewController.swift */; };
@@ -29,6 +31,8 @@
 		82FA5B3B1E1ACEBA00C50759 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		82FA5B431E1CEAA200C50759 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		82FA5B4A1E1CEEEC00C50759 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		82FA5B4B1E1CF5F300C50759 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
+		82FA5B4C1E1CF5F300C50759 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		82FEC4491DDA529B005A3744 /* GeocodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeocodeViewController.swift; sourceTree = "<group>"; };
 		A134525B1DC8A52C00111DB2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		A134525D1DC8A57E00111DB2 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +50,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82FA5B4D1E1CF5F300C50759 /* Bolts.framework in Frameworks */,
+				82FA5B4E1E1CF5F300C50759 /* FBSDKLoginKit.framework in Frameworks */,
 				82FA5B471E1CEAA200C50759 /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,6 +94,8 @@
 		82FA5B3D1E1CE9E800C50759 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82FA5B4B1E1CF5F300C50759 /* Bolts.framework */,
+				82FA5B4C1E1CF5F300C50759 /* FBSDKLoginKit.framework */,
 				82FA5B431E1CEAA200C50759 /* FBSDKCoreKit.framework */,
 			);
 			name = Frameworks;
