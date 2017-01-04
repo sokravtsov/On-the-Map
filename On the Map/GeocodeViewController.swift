@@ -20,16 +20,16 @@ class GeocodeViewController : UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        submitButton.layer.cornerRadius = 5
+        submitButton.layer.cornerRadius = CGFloat(Radius.corner)
     }
     
     ///Method to create a new student location
     @IBAction func postStudentLocation() {
         let request = NSMutableURLRequest(url: URL(string: "\(DataLoader.mainBaseURL)+\(DataLoader.baseURLforStudentLocation)")!)
-        request.httpMethod = "POST"
-        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = HTTPMethod.post
+        request.addValue(DataLoader.parseAppID, forHTTPHeaderField: HTTPHeaderField.parseAppID)
+        request.addValue(DataLoader.RestAPIKey, forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
+        request.addValue(DataLoader.applicationJSON, forHTTPHeaderField: HTTPHeaderField.contentType)
         request.httpBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.386052, \"longitude\": -122.083851}".data(using: String.Encoding.utf8)
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in

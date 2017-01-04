@@ -39,12 +39,12 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     ///Override of **viewDidLoad()** method
     override func viewDidLoad() {
         super.viewDidLoad()
-        loginButton.layer.cornerRadius = 5
-        facebookButton.layer.cornerRadius = 5
+        loginButton.layer.cornerRadius = CGFloat(Radius.corner)
+        facebookButton.layer.cornerRadius = CGFloat(Radius.corner)
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        emailTextField.placeholder = "Email"
-        passwordTextField.placeholder = "Password"
+        emailTextField.placeholder = Placeholder.email
+        passwordTextField.placeholder = Placeholder.password
         passwordTextField.isSecureTextEntry = true
     }
     
@@ -56,7 +56,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     
     ///Method textField did begin editing
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if ((textField.text == "Email") || (textField.text == "Password")) {
+        if ((textField.text == Placeholder.email) || (textField.text == Placeholder.password)) {
             textField.text = ""
         }
     }
@@ -65,9 +65,9 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.text == "" {
             if textField == emailTextField {
-                textField.text = "Email"
+                textField.text = Placeholder.email
             } else if textField == passwordTextField {
-                textField.text = "Password"
+                textField.text = Placeholder.password
             }
         }
     }

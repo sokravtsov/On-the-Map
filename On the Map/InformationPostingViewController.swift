@@ -22,9 +22,7 @@ class InformationPostingViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        findButton.layer.cornerRadius = 5
-        
+        findButton.layer.cornerRadius = CGFloat(Radius.corner)
     }
     
 }

@@ -65,8 +65,8 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     ///Method to get multiple student locations 
     func getStudentLocations() {
         let request = NSMutableURLRequest(url: URL(string: "\(DataLoader.mainBaseURL)+\(DataLoader.baseURLforStudentLocation)")!)
-        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: HTTPHeaderField.parseAppID)
+        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) {data, responce, error in
             if error != nil {
@@ -80,8 +80,8 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     ///Method to get a single student location
     func getStudentLocation() {
         let request = NSMutableURLRequest(url: URL(string: "\(DataLoader.mainBaseURL)+\(DataLoader.baseURLforStudentLocation)")!)
-        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: HTTPHeaderField.parseAppID)
+        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil {
@@ -95,7 +95,8 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     
     ///Action for add  location
     @IBAction func addLocation(_ sender: UIBarButtonItem) {
-        self.performSegue(withIdentifier: "InformationPosting", sender: self)
+        self.performSegue(withIdentifier: Segue.informationPosting, sender: self)
+        // FIXME: Delete after debugging
         print ("GOOOOOD!")
     }
     
