@@ -13,16 +13,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    func application(application: UIApplication,
-                     openURL url: NSURL,
+    func application(_ application: UIApplication,
+                     open url: URL,
                      sourceApplication: String?,
-                     annotation: AnyObject?) -> Bool {
+                     annotation: Any) -> Bool {
         return FBSDKApplicationDelegate.sharedInstance().application(
             application,
             open: url as URL!,
@@ -54,4 +53,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-

@@ -12,6 +12,10 @@ import CoreLocation
 
 class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    var appDelegate: AppDelegate!
+    var locations: [StudentLocation] = [StudentLocation]()
+
+
     // MARK: UI Variables
     
     ///Apple Map View
@@ -36,11 +40,23 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     ///Override of **viewDidLoad()** method
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
-        self.mapView.showsUserLocation = true
+        setMapSettings()
+        appDelegate = UIApplication.shared.delegate as! AppDelegate
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        ParseClient.sharedInstance().getStudentLocations { (locations, error) in
+            if let locations = locations {
+                self.locations = locations
+                performUIUpdatesOnMain {
+                    print (locations)
+                }
+            } else {
+                print(error)
+            }
+        }
     }
     
     ///Method for update location
@@ -60,54 +76,13 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     ///Method for checking errors
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print ("Errors: " + error.localizedDescription)
+    }    
+    
+    private func setMapSettings() {
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
+        self.mapView.showsUserLocation = true
     }
-    
-    ///Method to get multiple student locations 
-    func getStudentLocations() {
-        let request = NSMutableURLRequest(url: URL(string: "\(DataLoader.mainBaseURL)+\(DataLoader.baseURLforStudentLocation)")!)
-        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: HTTPHeaderField.parseAppID)
-        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) {data, responce, error in
-            if error != nil {
-                return
-            }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
-        }
-        task.resume()
-    }
-    
-    ///Method to get a single student location
-    func getStudentLocation() {
-        let request = NSMutableURLRequest(url: URL(string: "\(DataLoader.mainBaseURL)+\(DataLoader.baseURLforStudentLocation)")!)
-        request.addValue("\(DataLoader.parseAppID)", forHTTPHeaderField: HTTPHeaderField.parseAppID)
-        request.addValue("\(DataLoader.RestAPIKey)", forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil {
-                return
-            }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
-        }
-        task.resume()
-
-    }
-    
-    ///Action for add  location
-    @IBAction func addLocation(_ sender: UIBarButtonItem) {
-        self.performSegue(withIdentifier: Segue.informationPosting, sender: self)
-        // FIXME: Delete after debugging
-        print ("GOOOOOD!")
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

@@ -12,6 +12,8 @@ import MapKit
 
 class GeocodeViewController : UIViewController, MKMapViewDelegate {
     
+    var location: StudentLocation?
+    
     // MARK: Variables
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var cancelButton: UIButton!
@@ -20,24 +22,23 @@ class GeocodeViewController : UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        submitButton.layer.cornerRadius = CGFloat(Radius.corner)
+        submitButton.layer.cornerRadius = 5
     }
     
     ///Method to create a new student location
     @IBAction func postStudentLocation() {
-        let request = NSMutableURLRequest(url: URL(string: "\(DataLoader.mainBaseURL)+\(DataLoader.baseURLforStudentLocation)")!)
-        request.httpMethod = HTTPMethod.post
-        request.addValue(DataLoader.parseAppID, forHTTPHeaderField: HTTPHeaderField.parseAppID)
-        request.addValue(DataLoader.RestAPIKey, forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
-        request.addValue(DataLoader.applicationJSON, forHTTPHeaderField: HTTPHeaderField.contentType)
-        request.httpBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 37.386052, \"longitude\": -122.083851}".data(using: String.Encoding.utf8)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error…
-                return
+        ParseClient.sharedInstance().PostStudentLocation { (statusCode, error) in
+            if let error = error {
+                print(error)
+            } else {
+                if statusCode == 1 || statusCode == 12 || statusCode == 13 {
+                    performUIUpdatesOnMain {
+                        print ("WTF???")
+                    }
+                } else {
+                    print("Unexpected status code \(statusCode)")
+                }
             }
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
         }
-        task.resume()
     }
 }

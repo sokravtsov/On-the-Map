@@ -12,6 +12,8 @@ import Foundation
 ///Class for login via Udacity or Facebook account
 class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
     
+    var appDelegate: AppDelegate!
+
     //MARK: UI Variables
     
     ///Email textField outlet
@@ -39,21 +41,10 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     ///Override of **viewDidLoad()** method
     override func viewDidLoad() {
         super.viewDidLoad()
-        loginButton.layer.cornerRadius = CGFloat(Radius.corner)
-        facebookButton.layer.cornerRadius = CGFloat(Radius.corner)
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
-        emailTextField.placeholder = Placeholder.email
-        passwordTextField.placeholder = Placeholder.password
-        passwordTextField.isSecureTextEntry = true
-        
-        if (FBSDKAccessToken.current() != nil) {
-            self.performSegue(withIdentifier: "Login", sender: self)
-        } else {
-            facebookButton.readPermissions = ["public_profile", "email", "user_friends"]
-            facebookButton.delegate = self
-            facebookButton.readPermissions = ["public_profile", "email", "user_friends"]
-        }
+        configureUI()
+        facebookSettings()
+        appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     }
     
     ///Method textField should return
@@ -64,7 +55,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     
     ///Method textField did begin editing
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if ((textField.text == Placeholder.email) || (textField.text == Placeholder.password)) {
+        if ((textField.text == ParseClient.Placeholder.email) || (textField.text == ParseClient.Placeholder.password)) {
             textField.text = ""
         }
     }
@@ -73,9 +64,9 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.text == "" {
             if textField == emailTextField {
-                textField.text = Placeholder.email
+                textField.text = ParseClient.Placeholder.email
             } else if textField == passwordTextField {
-                textField.text = Placeholder.password
+                textField.text = ParseClient.Placeholder.password
             }
         }
     }
@@ -157,21 +148,27 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
         print("User Logged Out")
     }
     
-//    func returnUserData() {
-//        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
-//        graphRequest.start(completionHandler: { (connection, result, error) -> Void in
-//            
-//            if ((error) != nil) {
-//                // Process error
-//                print("Error: \(error)")
-//            } else {
-//                print("fetched user: \(result)")
-//                let userName : NSString = result.valueForKey("name") as! NSString
-//                print("User Name is: \(userName)")
-//                let userEmail : NSString = result.valueForKey("email") as! NSString
-//                print("User Email is: \(userEmail)")
-//            }
-//        })
-//    }
+    func returnUserData() {
+        
+    }
+    
+    private func configureUI() {
+        loginButton.layer.cornerRadius = CGFloat(ParseClient.Radius.corner)
+        facebookButton.layer.cornerRadius = CGFloat(ParseClient.Radius.corner)
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        emailTextField.placeholder = ParseClient.Placeholder.email
+        passwordTextField.placeholder = ParseClient.Placeholder.password
+        passwordTextField.isSecureTextEntry = true
+    }
+    
+    private func facebookSettings() {
+        if (FBSDKAccessToken.current() != nil) {
+            self.performSegue(withIdentifier: "Login", sender: self)
+        } else {
+            facebookButton.readPermissions = ["public_profile", "email", "user_friends"]
+            facebookButton.delegate = self
+        }
+    }
     
 }

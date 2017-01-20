@@ -8,53 +8,74 @@
 
 import Foundation
 
-class StudentLocation{
+struct StudentLocation {
     
-    // MARK: Variables
-    
-    ///Data when created location post
-    open var createdAt: String?
-    
-    ///Student's First Name
-    open var firstName: String?
-    
-    ///Student's Last Name
-    open var lastName: String?
-    
-    ///Student's Latitude
-    open var latitude: Float?
-    
-    ///Student's Longitude
-    open var longitude: Float?
-    
-    ///Student's location string
-    open var mapString: String?
-    
-    ///Student's media URL
-    open var mediaURL: String?
+    // MARK: Properties
     
     ///Object ID
-    open var objectId: String?
+    let objectId: String?
     
     ///Unique key
-    open var uniqueKey: String?
+    let uniqueKey: String?
+    
+    ///Student's First Name
+    let firstName: String?
+    
+    ///Student's Last Name
+    let lastName: String?
+    
+    ///Student's location string
+    let mapString: String?
+    
+    ///Student's media URL
+    let mediaURL: String?
+    
+    ///Student's Latitude
+    let latitude: Float?
+    
+    ///Student's Longitude
+    let longitude: Float?
+    
+    ///Data when created location post
+    let createdAt: String?
     
     ///Data when update self location
-    open var updatedAt: String?
+    let updatedAt: String?
+    
+    ///the Parse access and control list (ACL), i.e. permissions, for this StudentLocation entry
+    let ACL: String?
     
     // MARK: Initializers
     
-    ///Base initializer
-    public init (createdAt: String?, firstName: String?, lastName: String?, latitude: Float?, longitude: Float?, mapString: String?, mediaURL: String?, objectId: String?, uniqueKey: String?, updatedAt: String?) {
-        self.createdAt = createdAt
-        self.firstName = firstName
-        self.lastName = lastName
-        self.latitude = latitude
-        self.longitude = longitude
-        self.mapString = mapString
-        self.mediaURL = mediaURL
-        self.objectId = objectId
-        self.uniqueKey = uniqueKey
-        self.updatedAt = updatedAt
+    init(dictionary: [String:AnyObject]) {
+        objectId = dictionary[ParseClient.JSONResponseKeys.ObjectID] as? String
+        uniqueKey = dictionary[ParseClient.JSONResponseKeys.UniqueKey] as? String
+        firstName = dictionary[ParseClient.JSONResponseKeys.FirstName] as? String
+        lastName = dictionary[ParseClient.JSONResponseKeys.LastName] as? String
+        mapString = dictionary[ParseClient.JSONResponseKeys.MapString] as? String
+        mediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] as? String
+        latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Float
+        longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] as? Float
+        createdAt = dictionary[ParseClient.JSONResponseKeys.CreatedAt] as? String
+        updatedAt = dictionary[ParseClient.JSONResponseKeys.UpdatedAt] as? String
+        ACL = dictionary[ParseClient.JSONResponseKeys.ACL] as? String
+    }
+    
+    static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentLocation] {
+        
+        var locations = [StudentLocation]()
+        
+        // iterate through array of dictionaries, each Movie is a dictionary
+        for result in results {
+            locations.append(StudentLocation(dictionary: result))
+        }
+        
+        return locations
     }
 }
+
+//extension StudentLocation: Equatable {}
+//
+//func ==(lhs: StudentLocation, rhs: StudentLocation) -> Bool {
+//    return lhs.objectId == rhs.objectId
+//}
