@@ -15,5 +15,14 @@ class TableViewController: UIViewController {
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //FIXME: переместить в выход из приложения
+        ParseClient.sharedInstance().DeleteSession()
+    }
 }

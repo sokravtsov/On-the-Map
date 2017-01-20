@@ -25,9 +25,15 @@ class GeocodeViewController : UIViewController, MKMapViewDelegate {
         submitButton.layer.cornerRadius = 5
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //FIXME: Перенести метод в LoginVC
+        ParseClient.sharedInstance().PostSession()
+    }
+    
     ///Method to create a new student location
     @IBAction func postStudentLocation() {
-        ParseClient.sharedInstance().PostStudentLocation { (statusCode, error) in
+        ParseClient.sharedInstance().PostStudentLocation() /*{ (statusCode, error) in
             if let error = error {
                 print(error)
             } else {
@@ -39,6 +45,6 @@ class GeocodeViewController : UIViewController, MKMapViewDelegate {
                     print("Unexpected status code \(statusCode)")
                 }
             }
-        }
+        }*/
     }
 }

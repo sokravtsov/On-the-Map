@@ -60,7 +60,7 @@ extension ParseClient {
         task.resume()
     }
     
-    func PostStudentLocation (completionHandlerForPostStudentLocation: @escaping (_ result: Int?, _ error: NSError?) -> Void) {
+    func PostStudentLocation(/*completionHandlerForPostStudentLocation: @escaping (_ result: Int?, _ error: NSError?) -> Void*/) {
         let mutableMethod: String = Methods.StudentLocations
         let jsonBody = "{\"\(JSONResponseKeys.UniqueKey)\": \"1234\", \"\(JSONResponseKeys.FirstName)\": \"John\", \"\(JSONResponseKeys.LastName)\": \"Doe\",\"\(JSONResponseKeys.MapString)\": \"Mountain View, CA\", \"\(JSONResponseKeys.MediaURL)\": \"https://udacity.com\",\"\(JSONResponseKeys.Latitude)\": 37.386052, \"\(JSONResponseKeys.Longitude)\": -122.083851}"
         let _ = taskForPOSTMethod(mutableMethod, jsonBody: jsonBody) { (results, error) in
@@ -76,6 +76,79 @@ extension ParseClient {
 //            }
         }
     }
+    
+    func PostSession() {
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "{\"udacity\": {\"username\": \"kravtsov@happimess.ru\", \"password\": \"1505407juve\"}}".data(using: String.Encoding.utf8)
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            guard let data = data else {
+                print ("No data was returned by the request!")
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (5, data.count - 5))
+            let newData = data.subdata(in: range) /* subset response data! */
+
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+        }
+        
+        task.resume()
+    }
+    
+    func DeleteSession() {
+        
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
+        request.httpMethod = "DELETE"
+        var xsrfCookie: HTTPCookie? = nil
+        let sharedCookieStorage = HTTPCookieStorage.shared
+        for cookie in sharedCookieStorage.cookies! {
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+        }
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+        
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            guard let data = data else {
+                print ("No data was returned by the request!")
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (5, data.count - 5))
+            let newData = data.subdata(in: range) /* subset response data! */
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+            
+        }
+        
+        task.resume()
+    }
+    
 }
 
 
