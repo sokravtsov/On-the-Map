@@ -10,13 +10,28 @@ import UIKit
 import MapKit
 import CoreLocation
 
+fileprivate protocol Setup {
+    
+    func setupMapSettings()
+    func setupPinOnMap()
+}
+
+fileprivate protocol MapViewProtocol {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl)
+}
+
+fileprivate protocol LocationManagerProtocol {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
+}
+
+///Class for MapKit
 class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
-    var appDelegate: AppDelegate!
-    var locations: [StudentLocation] = [StudentLocation]()
-
-
-    // MARK: UI Variables
+    // MARK: Outlets
     
     ///Apple Map View
     @IBOutlet weak var mapView: MKMapView!
@@ -30,34 +45,122 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     ///Button for update data from server
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
-    // MARK: Variables
+    // MARK: Properties
     
     ///Create LocationManager
     var locationManager = CLLocationManager()
     
-    // MARK: Methods
+    var studentLocations = [StudentLocation]()
+    
+    // MARK: Life Cycle
     
     ///Override of **viewDidLoad()** method
     override func viewDidLoad() {
         super.viewDidLoad()
-        setMapSettings()
-        appDelegate = UIApplication.shared.delegate as! AppDelegate
+        setupMapSettings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupPinOnMap()
+    }
+}
+
+// MARK: - Setup
+
+extension MapViewController: Setup {
+    
+    func setupMapSettings() {
+        
+        mapView.delegate = self
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        //self.mapView.showsUserLocation = true
+    }
+    
+    func setupPinOnMap() {
         
         ParseClient.sharedInstance().getStudentLocations { (locations, error) in
-            if let locations = locations {
-                self.locations = locations
+            
+            if let result = locations {
+                self.studentLocations = result
+                print (result)
+                
+                var annotations = [MKPointAnnotation]()
+                
+                for eachLocation in self.studentLocations {
+                    
+                    let lat = CLLocationDegrees(eachLocation.latitude!)
+                    let long = CLLocationDegrees(eachLocation.longitude!)
+                    
+                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    
+                    let first = eachLocation.firstName!
+                    let last = eachLocation.lastName!
+                    let mediaURL = eachLocation.mediaURL!
+                    
+                    let annotation = MKPointAnnotation()
+                    
+                    annotation.coordinate = coordinate
+                    annotation.title = "\(first) \(last)"
+                    annotation.subtitle = mediaURL
+                    
+                    annotations.append(annotation)
+                    
+                    
+                }
                 performUIUpdatesOnMain {
-                    print (locations)
+                    self.mapView.addAnnotations(annotations)
                 }
             } else {
+                
                 print(error)
             }
         }
     }
+}
+
+// MARK: - MapViewProtocol
+
+extension MapViewController: MapViewProtocol {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseId = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinTintColor = .red
+            pinView?.animatesDrop = true
+            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            let app = UIApplication.shared
+            if let toOpen = view.annotation?.subtitle! {
+                app.open(URL(string: toOpen)!, options: [:], completionHandler: nil)
+            }
+        }
+    }
+}
+
+//MARK: - LocationManagerProtocol
+
+extension MapViewController: LocationManagerProtocol {
     
     ///Method for update location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -76,13 +179,5 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     ///Method for checking errors
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print ("Errors: " + error.localizedDescription)
-    }    
-    
-    private func setMapSettings() {
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
-        self.mapView.showsUserLocation = true
     }
 }

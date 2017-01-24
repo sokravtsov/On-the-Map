@@ -29,6 +29,8 @@ class GeocodeViewController : UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         //FIXME: Перенести метод в LoginVC
         ParseClient.sharedInstance().PostSession()
+        //FIXME: Проверить работу метода
+        ParseClient.sharedInstance().GetPublicUserData()
     }
     
     ///Method to create a new student location

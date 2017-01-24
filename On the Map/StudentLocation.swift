@@ -31,10 +31,10 @@ struct StudentLocation {
     let mediaURL: String?
     
     ///Student's Latitude
-    let latitude: Float?
+    let latitude: Double?
     
     ///Student's Longitude
-    let longitude: Float?
+    let longitude: Double?
     
     ///Data when created location post
     let createdAt: String?
@@ -48,17 +48,17 @@ struct StudentLocation {
     // MARK: Initializers
     
     init(dictionary: [String:AnyObject]) {
-        objectId = dictionary[ParseClient.JSONResponseKeys.ObjectID] as? String
-        uniqueKey = dictionary[ParseClient.JSONResponseKeys.UniqueKey] as? String
-        firstName = dictionary[ParseClient.JSONResponseKeys.FirstName] as? String
-        lastName = dictionary[ParseClient.JSONResponseKeys.LastName] as? String
-        mapString = dictionary[ParseClient.JSONResponseKeys.MapString] as? String
-        mediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] as? String
-        latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Float
-        longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] as? Float
-        createdAt = dictionary[ParseClient.JSONResponseKeys.CreatedAt] as? String
-        updatedAt = dictionary[ParseClient.JSONResponseKeys.UpdatedAt] as? String
-        ACL = dictionary[ParseClient.JSONResponseKeys.ACL] as? String
+        objectId = dictionary[ParseClient.JSONResponseKeys.ObjectID] != nil ? dictionary[ParseClient.JSONResponseKeys.ObjectID] as? String : ""
+        uniqueKey = dictionary[ParseClient.JSONResponseKeys.UniqueKey] != nil ? dictionary[ParseClient.JSONResponseKeys.UniqueKey] as? String : ""
+        firstName = dictionary[ParseClient.JSONResponseKeys.FirstName] != nil ? dictionary[ParseClient.JSONResponseKeys.FirstName] as? String : ""
+        lastName = dictionary[ParseClient.JSONResponseKeys.LastName] != nil ? dictionary[ParseClient.JSONResponseKeys.LastName] as? String : ""
+        mapString = dictionary[ParseClient.JSONResponseKeys.MapString] != nil ? dictionary[ParseClient.JSONResponseKeys.MapString] as? String : ""
+        mediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] != nil ? dictionary[ParseClient.JSONResponseKeys.MediaURL] as? String : ""
+        latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] != nil ? dictionary[ParseClient.JSONResponseKeys.Latitude] as? Double : 0
+        longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] != nil ? dictionary[ParseClient.JSONResponseKeys.Longitude] as? Double : 0
+        createdAt = dictionary[ParseClient.JSONResponseKeys.CreatedAt] != nil ? dictionary[ParseClient.JSONResponseKeys.CreatedAt] as? String : ""
+        updatedAt = dictionary[ParseClient.JSONResponseKeys.UpdatedAt] != nil ? dictionary[ParseClient.JSONResponseKeys.UpdatedAt] as? String : ""
+        ACL = dictionary[ParseClient.JSONResponseKeys.ACL] != nil ? dictionary[ParseClient.JSONResponseKeys.ACL] as? String : ""
     }
     
     static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentLocation] {
@@ -73,9 +73,3 @@ struct StudentLocation {
         return locations
     }
 }
-
-//extension StudentLocation: Equatable {}
-//
-//func ==(lhs: StudentLocation, rhs: StudentLocation) -> Bool {
-//    return lhs.objectId == rhs.objectId
-//}

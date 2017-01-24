@@ -13,14 +13,7 @@ extension ParseClient {
     //MARK: GET Students Locations
     
     func getStudentLocations(_ completionHandlerForStudentLocations: @escaping (_ result: [StudentLocation]?, _ error: NSError?) -> Void) {
-        ///Get sudent locations
-        //        let methodParameters = [
-        //            Constants.ParseParameterKeys.Limit: Constants.ParseParameterValues.Limit,
-        //            Constants.ParseParameterKeys.Skip: Constants.ParseParameterValues.Skip,
-        //            Constants.ParseParameterKeys.Order: Constants.ParseParameterValues.Order
-        //            ] as [String : Any]
         
-        //        let request = NSMutableURLRequest(url: appDelegate.parseURLFromParameters(methodParameters as [String : AnyObject]))
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.addValue(ParseParameterValues.AppID, forHTTPHeaderField: HTTPHeaderField.parseAppID)
         request.addValue(ParseParameterValues.ApiKey, forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
@@ -111,7 +104,6 @@ extension ParseClient {
     }
     
     func DeleteSession() {
-        
         let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
         request.httpMethod = "DELETE"
         var xsrfCookie: HTTPCookie? = nil
@@ -149,6 +141,69 @@ extension ParseClient {
         task.resume()
     }
     
+    //FIXME: возвращает error other than 2xx!
+    func PostSessionFacebook() {
+        
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = "{\"facebook_mobile\": {\"access_token\": \"\(FBSDKAccessToken.current())\"}}".data(using: String.Encoding.utf8)
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("!!!!!!!!!!!!!!!!!!!!!!!Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            guard let data = data else {
+                print ("No data was returned by the request!")
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (5, data.count - 5))
+            let newData = data.subdata(in: range) /* subset response data! */
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+        }
+        
+        task.resume()
+    }
+    
+    func GetPublicUserData() {
+        
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/3903878747")!)
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            guard let data = data else {
+                print ("No data was returned by the request!")
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (5, data.count - 5))
+            let newData = data.subdata(in: range) /* subset response data! */
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+            
+        }
+        
+        task.resume()
+    }
 }
 
 
