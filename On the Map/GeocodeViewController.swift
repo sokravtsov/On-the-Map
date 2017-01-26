@@ -27,15 +27,13 @@ class GeocodeViewController : UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //FIXME: Перенести метод в LoginVC
-        ParseClient.sharedInstance().PostSession()
         //FIXME: Проверить работу метода
-        ParseClient.sharedInstance().GetPublicUserData()
+        ParseClient.sharedInstance.GetPublicUserData()
     }
     
     ///Method to create a new student location
     @IBAction func postStudentLocation() {
-        ParseClient.sharedInstance().PostStudentLocation() /*{ (statusCode, error) in
+        ParseClient.sharedInstance.PostStudentLocation() /*{ (statusCode, error) in
             if let error = error {
                 print(error)
             } else {

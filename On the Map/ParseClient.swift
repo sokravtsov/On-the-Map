@@ -7,13 +7,22 @@
 //
 
 import Foundation
+import MapKit
 
 class ParseClient: NSObject {
     
+    static let sharedInstance = ParseClient()
+    
     var session = URLSession.shared
-    var requestToken: String? = nil
-    var sessionID: String? = nil
-    var userID: Int? = nil
+    var requestToken = ""
+    var sessionID = ""
+    var userID = ""
+    var firstName = ""
+    var lastName = ""
+    
+    var studentLocations = [StudentLocation]()
+    var annotations = [MKPointAnnotation]()
+
     
     override init() {
         super.init()
@@ -23,8 +32,8 @@ class ParseClient: NSObject {
     func taskForPOSTMethod(_ method: String, /*parameters: [String:AnyObject],*/ jsonBody: String, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         
         //FIXME: uncomment after logining
-//        var parametersWithApiKey = parameters
-//        parametersWithApiKey[ParameterKeys.ApiKey] = Constants.ApiKey as AnyObject?
+        //        var parametersWithApiKey = parameters
+        //        parametersWithApiKey[ParameterKeys.ApiKey] = Constants.ApiKey as AnyObject?
         
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.httpMethod = "POST"
@@ -92,9 +101,9 @@ class ParseClient: NSObject {
     func parseURLFromParameters(_ parameters: [String: AnyObject]) -> URL {
         
         var components = URLComponents()
-        components.scheme = Constants.ApiScheme
-        components.host = Constants.ApiHost
-        components.path = Constants.ApiPath
+        components.scheme = Constants.apiScheme
+        components.host = Constants.apiHost
+        components.path = Constants.apiPath
         components.queryItems = [URLQueryItem]()
         
         for (key, value) in parameters {
@@ -105,12 +114,99 @@ class ParseClient: NSObject {
         return components.url!
     }
     
-    // MARK: Shared Instance
-
-    class func sharedInstance() -> ParseClient {
-        struct Singleton {
-            static var sharedInstance = ParseClient()
+    func taskToPOSTSession(jsonBody:[String:String], completionHandlerForSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) -> URLSessionDataTask {
+        let userInfo = [JSONBodyKeys.udacityKey:jsonBody]
+        var info: Data!
+        do{
+            info = try JSONSerialization.data(withJSONObject: userInfo, options: JSONSerialization.WritingOptions.prettyPrinted)
+        } catch {
+            print("Cannot encode the data")
         }
-        return Singleton.sharedInstance
+        
+        let method = Methods.session
+        let urlString = Constants.getSessionURL + method
+        let sessionURL = URL(string: urlString)
+        let request = NSMutableURLRequest(url:sessionURL!)
+        request.httpMethod = "POST"
+        request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.acceptField)
+        request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.contentType)
+        request.httpBody = info /*jsonBody.data(using: String.Encoding.utf8)*/
+        
+        let task = session.dataTask(with: request as URLRequest) {(data,response,error) in
+            
+            if error != nil{
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                completionHandlerForSessionID(nil,NSError(domain:"taskToPOSTSession", code: 1, userInfo:userInfo))
+            }
+            
+            guard let data = data else {
+                print("Could not find the data")
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (5, data.count))
+            let newData = data.subdata(in: range)
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+            self.convertData(newData, completionHandlerForConvertData: completionHandlerForSessionID)
+            
+        }
+        
+        task.resume()
+        return task
+    }
+    
+    func taskToPOSTSessionFacebook(jsonBody:[String:String], completionHandlerForFacebookSessionID:@escaping(_ result:AnyObject?, _ error:NSError?)-> Void) -> URLSessionDataTask {
+        
+        let userInfo = [JSONBodyKeys.facebookMobile:jsonBody]
+        var info: Data!
+        do{
+            info = try JSONSerialization.data(withJSONObject: userInfo, options: JSONSerialization.WritingOptions.prettyPrinted)
+        } catch {
+            print("Cannot encode the data")
+        }
+        let method = Methods.session
+        let urlString = Constants.getSessionURL + method
+        let sessionURL = URL(string: urlString)
+        let request = NSMutableURLRequest(url:sessionURL!)
+        request.httpMethod = "POST"
+        request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.acceptField)
+        request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.contentType)
+        request.httpBody = info
+
+        let task = session.dataTask(with: request as URLRequest) {(data,response,error) in
+            if error != nil{
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                completionHandlerForFacebookSessionID(nil,NSError(domain:"taskToPOSTSessionFacabook", code: 1, userInfo:userInfo))
+            }
+            
+            guard let data = data else {
+                print("Could not find the data")
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (5, data.count))
+            let newData = data.subdata(in: range)
+            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+            self.convertData(newData, completionHandlerForConvertData: completionHandlerForFacebookSessionID)
+
+            
+        }
+
+        task.resume()
+        return task
+    }
+    
+    private func convertData(_ data: Data, completionHandlerForConvertData: (_ result:AnyObject?,_ error: NSError?) -> Void) {
+        var parsedData:AnyObject!
+        do {
+            parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
+            if JSONSerialization.isValidJSONObject(parsedData) {
+                completionHandlerForConvertData(parsedData,nil)
+            }
+        } catch {
+            let userInfo = [NSLocalizedDescriptionKey: "Cannot parse the \(data) into json Format"]
+            completionHandlerForConvertData(nil,NSError(domain:"convertDataWithCompletionHandler", code:1,userInfo: userInfo))
+        }
+        completionHandlerForConvertData(parsedData,nil)
     }
 }

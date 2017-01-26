@@ -50,7 +50,8 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     ///Create LocationManager
     var locationManager = CLLocationManager()
     
-    var studentLocations = [StudentLocation]()
+    ///Variable for checking if need to update annotations on map
+    var needToUpdateMap = true
     
     // MARK: Life Cycle
     
@@ -62,8 +63,19 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if needToUpdateMap {
+          setupPinOnMap()
+        }
+    }
+    
+    @IBAction func refreshMap(_ sender: Any) {
+        self.mapView.removeAnnotations(ParseClient.sharedInstance.annotations)
+        ParseClient.sharedInstance.studentLocations.removeAll()
+        ParseClient.sharedInstance.annotations.removeAll()
         setupPinOnMap()
     }
+    
+    
 }
 
 // MARK: - Setup
@@ -84,15 +96,13 @@ extension MapViewController: Setup {
     
     func setupPinOnMap() {
         
-        ParseClient.sharedInstance().getStudentLocations { (locations, error) in
+        ParseClient.sharedInstance.getStudentLocations { (locations, error) in
             
             if let result = locations {
-                self.studentLocations = result
+                ParseClient.sharedInstance.studentLocations = result
                 print (result)
                 
-                var annotations = [MKPointAnnotation]()
-                
-                for eachLocation in self.studentLocations {
+                for eachLocation in ParseClient.sharedInstance.studentLocations {
                     
                     let lat = CLLocationDegrees(eachLocation.latitude!)
                     let long = CLLocationDegrees(eachLocation.longitude!)
@@ -109,20 +119,25 @@ extension MapViewController: Setup {
                     annotation.title = "\(first) \(last)"
                     annotation.subtitle = mediaURL
                     
-                    annotations.append(annotation)
-                    
-                    
+                    ParseClient.sharedInstance.annotations.append(annotation)
                 }
                 performUIUpdatesOnMain {
-                    self.mapView.addAnnotations(annotations)
+                    self.mapView.addAnnotations(ParseClient.sharedInstance.annotations)
                 }
-            } else {
                 
+                self.needToUpdateMap = false
+                
+            } else {
                 print(error)
             }
         }
     }
+    
+    
+    
 }
+
+
 
 // MARK: - MapViewProtocol
 

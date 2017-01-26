@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Foundation
 
-class InformationPostingViewController : UIViewController {
+class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var centerView: UIView!
@@ -20,9 +21,30 @@ class InformationPostingViewController : UIViewController {
     @IBOutlet weak var adressTextField: UITextField!
     @IBOutlet weak var findButton: UIButton!
 
+    var locationString: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        adressTextField.delegate = self
         findButton.layer.cornerRadius = CGFloat(ParseClient.Radius.corner)
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.text! == "Enter Your Location Here" {
+            textField.text! = ""
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text != "" {
+            self.locationString = textField.text!
+        }
+    }
+    
     
 }

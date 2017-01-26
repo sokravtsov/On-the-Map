@@ -8,8 +8,14 @@
 
 import UIKit
 
+///Class for view TableViewCell
 class TableViewCell: UITableViewCell {
     
+    //MARK: Outlets
     
+    ///Pin image
+    @IBOutlet weak var imagePin: UIImageView!
     
+    ///Name label
+    @IBOutlet weak var nameLabel: UILabel!
 }

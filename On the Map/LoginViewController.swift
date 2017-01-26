@@ -13,7 +13,7 @@ import Foundation
 class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
     
     var appDelegate: AppDelegate!
-
+    
     //MARK: UI Variables
     
     ///Email textField outlet
@@ -43,8 +43,6 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
         super.viewDidLoad()
         configureUI()
         facebookSettings()
-        appDelegate = UIApplication.shared.delegate as! AppDelegate
-
     }
     
     ///Method textField should return
@@ -82,7 +80,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-
+    
     ///Override of **viewWillDisappear()** method
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -128,25 +126,41 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     // Facebook Delegate Methods
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        print("User Logged In")
-        ParseClient.sharedInstance().PostSessionFacebook()
-        self.performSegue(withIdentifier: "Login", sender: self)
         
-        if ((error) != nil) {
-            // Process error
-        } else if result.isCancelled {
-            // Handle cancellations
-        } else {
-            
-            // If you ask for multiple permissions at once, you
-            // should check if specific permissions missing
-            if result.grantedPermissions.contains("email") {
-                // Do work
+        if result != nil {
+            self.facebookButton.isHidden = true
+            ParseClient.sharedInstance.PostSessionFacebook() { (results, error) in
+                if error == nil {
+                    performUIUpdatesOnMain {
+                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
+                        self.present(vc, animated: false, completion: nil)
+                        print("User Logged In")
+                        
+                    }
+                }
             }
         }
-        
-        
     }
+//        if ((error) != nil) {
+//
+//        ParseClient.sharedInstance().PostSessionFacebook() { (results, error) in
+//            if error == nil {
+//                performUIUpdatesOnMain {
+//                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
+//                    self.present(vc, animated: false, completion: nil)
+//                    print("User Logged In")
+//                }
+//            }
+//        }
+//        } else if result.isCancelled {
+//            // Handle cancellations
+//        } else {
+//            // If you ask for multiple permissions at once, you
+//            // should check if specific permissions missing
+//            if result.grantedPermissions.contains("email") {
+//                // Do work
+//            }
+//        }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         print("User Logged Out")
@@ -168,11 +182,23 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     
     private func facebookSettings() {
         if (FBSDKAccessToken.current() != nil) {
-            self.performSegue(withIdentifier: "Login", sender: self)
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
+            self.present(vc, animated: false, completion: nil)
         } else {
             facebookButton.readPermissions = ["public_profile", "email", "user_friends"]
             facebookButton.delegate = self
         }
     }
     
+    @IBAction func tapLogin(_ sender: Any) {
+        
+        ParseClient.sharedInstance.PostSession(userName: emailTextField.text!, password: passwordTextField.text!) { (results, error) in
+            if error == nil {
+                performUIUpdatesOnMain {
+                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
+                    self.present(vc, animated: false, completion: nil)
+                }
+            }
+        }
+    }
 }

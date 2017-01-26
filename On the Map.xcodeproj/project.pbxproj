@@ -65,13 +65,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		821966541E3A939900AD4732 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A134525F1DC8A60B00111DB2 /* TableViewCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		8276D0221DDD100600E14BDA /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				826AC1B71E32AAC500BF8A0F /* ParseClient.swift */,
 				826AC1B51E32A7D300BF8A0F /* ParseNetworking.swift */,
 				8276D0201DDD0C6100E14BDA /* StudentLocation.swift */,
-				A134525F1DC8A60B00111DB2 /* TableViewCell.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -134,6 +141,7 @@
 				826AC1B31E32108200BF8A0F /* GCDBlackBox.swift */,
 				82FA5B4A1E1CEEEC00C50759 /* Bridging-Header.h */,
 				8276D0221DDD100600E14BDA /* Model */,
+				821966541E3A939900AD4732 /* View */,
 				8276D0231DDD102200E14BDA /* Controller */,
 				8276D0241DDD104600E14BDA /* Other */,
 			);

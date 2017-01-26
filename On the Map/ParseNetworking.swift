@@ -15,8 +15,8 @@ extension ParseClient {
     func getStudentLocations(_ completionHandlerForStudentLocations: @escaping (_ result: [StudentLocation]?, _ error: NSError?) -> Void) {
         
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
-        request.addValue(ParseParameterValues.AppID, forHTTPHeaderField: HTTPHeaderField.parseAppID)
-        request.addValue(ParseParameterValues.ApiKey, forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
+        request.addValue(ParseParameterValues.appID, forHTTPHeaderField: HTTPHeaderField.parseAppID)
+        request.addValue(ParseParameterValues.apiKey, forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
@@ -43,7 +43,7 @@ extension ParseClient {
                 return
             }
             
-            if let results = parsedResult[JSONResponseKeys.Results] as? [[String:AnyObject]] {
+            if let results = parsedResult[JSONResponseKeys.results] as? [[String:AnyObject]] {
                 let locations = StudentLocation.locationsFromResults(results)
                 completionHandlerForStudentLocations(locations, nil)
             } else {
@@ -54,54 +54,110 @@ extension ParseClient {
     }
     
     func PostStudentLocation(/*completionHandlerForPostStudentLocation: @escaping (_ result: Int?, _ error: NSError?) -> Void*/) {
-        let mutableMethod: String = Methods.StudentLocations
-        let jsonBody = "{\"\(JSONResponseKeys.UniqueKey)\": \"1234\", \"\(JSONResponseKeys.FirstName)\": \"John\", \"\(JSONResponseKeys.LastName)\": \"Doe\",\"\(JSONResponseKeys.MapString)\": \"Mountain View, CA\", \"\(JSONResponseKeys.MediaURL)\": \"https://udacity.com\",\"\(JSONResponseKeys.Latitude)\": 37.386052, \"\(JSONResponseKeys.Longitude)\": -122.083851}"
+        let mutableMethod: String = Methods.studentLocations
+        let jsonBody = "{\"\(JSONResponseKeys.uniqueKey)\": \"1234\", \"\(JSONResponseKeys.firstName)\": \"John\", \"\(JSONResponseKeys.lastName)\": \"Doe\",\"\(JSONResponseKeys.mapString)\": \"Mountain View, CA\", \"\(JSONResponseKeys.mediaURL)\": \"https://udacity.com\",\"\(JSONResponseKeys.latitude)\": 37.386052, \"\(JSONResponseKeys.longitude)\": -122.083851}"
         let _ = taskForPOSTMethod(mutableMethod, jsonBody: jsonBody) { (results, error) in
-//            if let error = error {
-//                completionHandlerForPostStudentLocation(nil, error)
-//            } else {
-//                if let results = results?[JSONResponseKeys.StatusCode] as? Int {
-//                    completionHandlerForPostStudentLocation(results, nil)
-//
-//                } else {
-//                    completionHandlerForPostStudentLocation(nil, NSError(domain: "postStudentLocation parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postStudentLocation"]))
-//                }
-//            }
+            //            if let error = error {
+            //                completionHandlerForPostStudentLocation(nil, error)
+            //            } else {
+            //                if let results = results?[JSONResponseKeys.StatusCode] as? Int {
+            //                    completionHandlerForPostStudentLocation(results, nil)
+            //
+            //                } else {
+            //                    completionHandlerForPostStudentLocation(nil, NSError(domain: "postStudentLocation parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postStudentLocation"]))
+            //                }
+            //            }
         }
     }
     
-    func PostSession() {
-        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"udacity\": {\"username\": \"kravtsov@happimess.ru\", \"password\": \"1505407juve\"}}".data(using: String.Encoding.utf8)
+    func PostSession(userName: String, password: String, completionHandlerForSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) {
+        let dictionary = [JSONBodyKeys.userNameKey: userName,
+                          JSONBodyKeys.passwordKey: password]
         
-        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
-            
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
-                return
+        _ = taskToPOSTSession(jsonBody: dictionary) {(results, error) in
+            if error != nil {
+                completionHandlerForSessionID(nil, error)
+            } else {
+                if let sessionResults = results as? [String:AnyObject] {
+                    if let accounts = sessionResults[JSONResponseKeys.account] as? [String:AnyObject] {
+                        if let userKey = accounts[JSONResponseKeys.key] as? String {
+                            ParseClient.sharedInstance.userID = userKey
+                        }
+                    }
+                    
+                    if let session = sessionResults[JSONResponseKeys.session] as? [String:AnyObject] {
+                        if let sessionID = session[JSONResponseKeys.sessionId] as? String {
+                            ParseClient.sharedInstance.sessionID = sessionID
+                        }
+                    }
+                    
+                    completionHandlerForSessionID(sessionResults as AnyObject,nil)
+                } else {
+                    completionHandlerForSessionID(nil,NSError(domain: "getSessionID", code:1, userInfo: [NSLocalizedDescriptionKey: "Could not parse the data"]))
+                }
             }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                print("Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            guard let data = data else {
-                print ("No data was returned by the request!")
-                return
-            }
-            
-            let range = Range(uncheckedBounds: (5, data.count - 5))
-            let newData = data.subdata(in: range) /* subset response data! */
-
-            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
         }
-        
-        task.resume()
     }
+    
+    //FIXME: возвращает error other than 2xx!
+    func PostSessionFacebook(completionHandlerForFacebookSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) {
+        let dictionary = [JSONBodyKeys.facebookMobile: String(describing: FBSDKAccessToken.current())]
+        
+        _ = taskToPOSTSessionFacebook(jsonBody: dictionary) {(results, error) in
+            if error != nil {
+                completionHandlerForFacebookSessionID(nil, error)
+            } else {
+                if let sessionResults = results as? [String:AnyObject] {
+                    if let accounts = sessionResults[JSONResponseKeys.account] as? [String:AnyObject] {
+                        if let userKey = accounts[JSONResponseKeys.key] as? String {
+                            ParseClient.sharedInstance.userID = userKey
+                        }
+                    }
+                    
+                    if let session = sessionResults[JSONResponseKeys.session] as? [String:AnyObject] {
+                        if let sessionID = session[JSONResponseKeys.sessionId] as? String {
+                            ParseClient.sharedInstance.sessionID = sessionID
+                        }
+                    }
+                    
+                    completionHandlerForFacebookSessionID(sessionResults as AnyObject, nil)
+                } else {
+                    completionHandlerForFacebookSessionID(nil, NSError(domain: "getSessionID", code:1, userInfo: [NSLocalizedDescriptionKey: "Could not parse the data"]))
+                }
+            }
+        }
+    }
+    
+//        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
+//        request.httpMethod = "POST"
+//        request.addValue("application/json", forHTTPHeaderField: "Accept")
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.httpBody = "{\"facebook_mobile\": {\"access_token\": \"\(FBSDKAccessToken.current())\"}}".data(using: String.Encoding.utf8)
+//        
+//        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+//            
+//            guard (error == nil) else {
+//                print("There was an error with your request: \(error)")
+//                return
+//            }
+//            
+//            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+//                print("!!!!!!!!!!!!!!!!!!!!!!!Your request returned a status code other than 2xx!")
+//                return
+//            }
+//            
+//            guard let data = data else {
+//                print ("No data was returned by the request!")
+//                return
+//            }
+//            
+//            let range = Range(uncheckedBounds: (5, data.count - 5))
+//            let newData = data.subdata(in: range) /* subset response data! */
+//            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
+//        }
+//        
+//        task.resume()
+//    }
     
     func DeleteSession() {
         let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
@@ -116,7 +172,7 @@ extension ParseClient {
         }
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
-        
+            
             guard (error == nil) else {
                 print("There was an error with your request: \(error)")
                 return
@@ -136,40 +192,6 @@ extension ParseClient {
             let newData = data.subdata(in: range) /* subset response data! */
             print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
             
-        }
-        
-        task.resume()
-    }
-    
-    //FIXME: возвращает error other than 2xx!
-    func PostSessionFacebook() {
-        
-        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"facebook_mobile\": {\"access_token\": \"\(FBSDKAccessToken.current())\"}}".data(using: String.Encoding.utf8)
-        
-        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
-            
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                print("!!!!!!!!!!!!!!!!!!!!!!!Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            guard let data = data else {
-                print ("No data was returned by the request!")
-                return
-            }
-            
-            let range = Range(uncheckedBounds: (5, data.count - 5))
-            let newData = data.subdata(in: range) /* subset response data! */
-            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
         }
         
         task.resume()

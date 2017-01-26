@@ -42,34 +42,28 @@ struct StudentLocation {
     ///Data when update self location
     let updatedAt: String?
     
-    ///the Parse access and control list (ACL), i.e. permissions, for this StudentLocation entry
-    let ACL: String?
-    
     // MARK: Initializers
     
     init(dictionary: [String:AnyObject]) {
-        objectId = dictionary[ParseClient.JSONResponseKeys.ObjectID] != nil ? dictionary[ParseClient.JSONResponseKeys.ObjectID] as? String : ""
-        uniqueKey = dictionary[ParseClient.JSONResponseKeys.UniqueKey] != nil ? dictionary[ParseClient.JSONResponseKeys.UniqueKey] as? String : ""
-        firstName = dictionary[ParseClient.JSONResponseKeys.FirstName] != nil ? dictionary[ParseClient.JSONResponseKeys.FirstName] as? String : ""
-        lastName = dictionary[ParseClient.JSONResponseKeys.LastName] != nil ? dictionary[ParseClient.JSONResponseKeys.LastName] as? String : ""
-        mapString = dictionary[ParseClient.JSONResponseKeys.MapString] != nil ? dictionary[ParseClient.JSONResponseKeys.MapString] as? String : ""
-        mediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] != nil ? dictionary[ParseClient.JSONResponseKeys.MediaURL] as? String : ""
-        latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] != nil ? dictionary[ParseClient.JSONResponseKeys.Latitude] as? Double : 0
-        longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] != nil ? dictionary[ParseClient.JSONResponseKeys.Longitude] as? Double : 0
-        createdAt = dictionary[ParseClient.JSONResponseKeys.CreatedAt] != nil ? dictionary[ParseClient.JSONResponseKeys.CreatedAt] as? String : ""
-        updatedAt = dictionary[ParseClient.JSONResponseKeys.UpdatedAt] != nil ? dictionary[ParseClient.JSONResponseKeys.UpdatedAt] as? String : ""
-        ACL = dictionary[ParseClient.JSONResponseKeys.ACL] != nil ? dictionary[ParseClient.JSONResponseKeys.ACL] as? String : ""
+        objectId = dictionary[ParseClient.JSONResponseKeys.objectID] != nil ? dictionary[ParseClient.JSONResponseKeys.objectID] as? String : ""
+        uniqueKey = dictionary[ParseClient.JSONResponseKeys.uniqueKey] != nil ? dictionary[ParseClient.JSONResponseKeys.uniqueKey] as? String : ""
+        firstName = dictionary[ParseClient.JSONResponseKeys.firstName] != nil ? dictionary[ParseClient.JSONResponseKeys.firstName] as? String : ""
+        lastName = dictionary[ParseClient.JSONResponseKeys.lastName] != nil ? dictionary[ParseClient.JSONResponseKeys.lastName] as? String : ""
+        mapString = dictionary[ParseClient.JSONResponseKeys.mapString] != nil ? dictionary[ParseClient.JSONResponseKeys.mapString] as? String : ""
+        mediaURL = dictionary[ParseClient.JSONResponseKeys.mediaURL] != nil ? dictionary[ParseClient.JSONResponseKeys.mediaURL] as? String : ""
+        latitude = dictionary[ParseClient.JSONResponseKeys.latitude] != nil ? dictionary[ParseClient.JSONResponseKeys.latitude] as? Double : 0
+        longitude = dictionary[ParseClient.JSONResponseKeys.longitude] != nil ? dictionary[ParseClient.JSONResponseKeys.longitude] as? Double : 0
+        createdAt = dictionary[ParseClient.JSONResponseKeys.createdAt] != nil ? dictionary[ParseClient.JSONResponseKeys.createdAt] as? String : ""
+        updatedAt = dictionary[ParseClient.JSONResponseKeys.updatedAt] != nil ? dictionary[ParseClient.JSONResponseKeys.updatedAt] as? String : ""
     }
     
     static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentLocation] {
         
-        var locations = [StudentLocation]()
+//        var locations = [StudentLocation]()
         
-        // iterate through array of dictionaries, each Movie is a dictionary
         for result in results {
-            locations.append(StudentLocation(dictionary: result))
+            ParseClient.sharedInstance.studentLocations.append(StudentLocation(dictionary: result))
         }
-        
-        return locations
+        return ParseClient.sharedInstance.studentLocations
     }
 }
