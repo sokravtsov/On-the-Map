@@ -141,17 +141,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
             }
         }
     }
-//        if ((error) != nil) {
-//
-//        ParseClient.sharedInstance().PostSessionFacebook() { (results, error) in
-//            if error == nil {
-//                performUIUpdatesOnMain {
-//                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
-//                    self.present(vc, animated: false, completion: nil)
-//                    print("User Logged In")
-//                }
-//            }
-//        }
+
 //        } else if result.isCancelled {
 //            // Handle cancellations
 //        } else {

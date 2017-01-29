@@ -76,11 +76,17 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     }
     
     @IBAction func addPinOnMap(_ sender: Any) {
+
     }
     
     @IBAction func logOut(_ sender: Any) {
+        ParseClient.sharedInstance.DeleteSession() { (results, error) in
+            if error != nil {
+                ParseClient.sharedInstance.userID = ""
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
-    
     
 }
 
@@ -96,7 +102,6 @@ extension MapViewController: Setup {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
         //self.mapView.showsUserLocation = true
     }
     
@@ -134,7 +139,7 @@ extension MapViewController: Setup {
                 self.needToUpdateMap = false
                 
             } else {
-                print(error)
+                print(error!)
             }
         }
     }

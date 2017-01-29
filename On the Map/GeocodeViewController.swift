@@ -28,23 +28,23 @@ class GeocodeViewController : UIViewController, MKMapViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //FIXME: Проверить работу метода
-        ParseClient.sharedInstance.GetPublicUserData()
+//        ParseClient.sharedInstance.GetPublicUserData()
     }
     
     ///Method to create a new student location
     @IBAction func postStudentLocation() {
-        ParseClient.sharedInstance.PostStudentLocation() /*{ (statusCode, error) in
-            if let error = error {
-                print(error)
-            } else {
-                if statusCode == 1 || statusCode == 12 || statusCode == 13 {
-                    performUIUpdatesOnMain {
-                        print ("WTF???")
-                    }
-                } else {
-                    print("Unexpected status code \(statusCode)")
-                }
-            }
-        }*/
+//        ParseClient.sharedInstance.PostStudentLocation() /*{ (statusCode, error) in
+//            if let error = error {
+//                print(error)
+//            } else {
+//                if statusCode == 1 || statusCode == 12 || statusCode == 13 {
+//                    performUIUpdatesOnMain {
+//                        print ("WTF???")
+//                    }
+//                } else {
+//                    print("Unexpected status code \(statusCode)")
+//                }
+//            }
+//        }*/
     }
 }

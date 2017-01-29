@@ -78,6 +78,12 @@ class TableViewController: UITableViewController {
     }
     
     @IBAction func logOut(_ sender: Any) {
+        ParseClient.sharedInstance.DeleteSession() { (results, error) in
+            if error != nil {
+                ParseClient.sharedInstance.userID = ""
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     
@@ -98,7 +104,7 @@ extension TableViewController: UdacityProtocol {
                 }
                 
             } else {
-                print(error)
+                print(error!)
             }
         }
         
