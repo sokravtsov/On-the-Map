@@ -75,6 +75,12 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
         setupPinOnMap()
     }
     
+    @IBAction func addPinOnMap(_ sender: Any) {
+    }
+    
+    @IBAction func logOut(_ sender: Any) {
+    }
+    
     
 }
 
@@ -132,6 +138,8 @@ extension MapViewController: Setup {
             }
         }
     }
+    
+    
     
     
     

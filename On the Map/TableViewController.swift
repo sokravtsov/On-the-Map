@@ -74,6 +74,13 @@ class TableViewController: UITableViewController {
         getStudentLocations()
     }
     
+    @IBAction func addPin(_ sender: Any) {
+    }
+    
+    @IBAction func logOut(_ sender: Any) {
+    }
+    
+    
 }
 
 //MARK: - UdacityProtocol
