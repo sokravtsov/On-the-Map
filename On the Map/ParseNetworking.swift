@@ -9,48 +9,8 @@
 import Foundation
 
 extension ParseClient {
-
-//    func getStudentLocations(_ completionHandlerForStudentLocations: @escaping (_ result: [StudentLocation]?, _ error: NSError?) -> Void) {
-//
-//        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
-//        request.addValue(ParseParameterValues.appID, forHTTPHeaderField: HTTPHeaderField.parseAppID)
-//        request.addValue(ParseParameterValues.apiKey, forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
-//
-//        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
-//
-//            guard (error == nil) else {
-//                print("There was an error with your request: \(error)")
-//                return
-//            }
-//
-//            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-//                print("Your request returned a status code other than 2xx!")
-//                return
-//            }
-//
-//            guard let data = data else {
-//                print("No data was returned by the request!")
-//                return
-//            }
-//
-//            let parsedResult: [String:AnyObject]!
-//            do {
-//                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:AnyObject]
-//            } catch {
-//                print("Could not parse the data as JSON: '\(data)'")
-//                return
-//            }
-//
-//            if let results = parsedResult[JSONResponseKeys.results] as? [[String:AnyObject]] {
-//                let locations = StudentLocation.locationsFromResults(results)
-//                completionHandlerForStudentLocations(locations, nil)
-//            } else {
-//                completionHandlerForStudentLocations(nil, NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
-//            }
-//        }
-//        task.resume()
-//    }
-
+    
+    ///Method for get Student Location with User ID, if userID = nil -> for 100 Student Locations
     func getStudentLocations(withUserID: String?, completionHandlerForGETStudentLocations: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) {
         var userID: String?
         if withUserID != nil {
@@ -65,7 +25,7 @@ extension ParseClient {
                 completionHandlerForGETStudentLocations(nil, error)
             } else {
                 if let results = results?[JSONResponseKeys.results] {
-                    print(results)
+                    print(results!)
                     let studentLocations = StudentLocation.locationsFromResults(results as! [[String : AnyObject]])
                     completionHandlerForGETStudentLocations(studentLocations as AnyObject?,nil)
                 } else {
@@ -75,12 +35,12 @@ extension ParseClient {
         }
     }
 
-
+    ///Method for posting session to server
     func PostSession(userName: String, password: String, completionHandlerForSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) {
         let dictionary = [JSONBodyKeys.userNameKey: userName,
                           JSONBodyKeys.passwordKey: password]
         
-        _ = taskToPOSTSession(jsonBody: dictionary) {(results, error) in
+        _ = taskForPOSTSession(jsonBody: dictionary) {(results, error) in
             if error != nil {
                 completionHandlerForSessionID(nil, error)
             } else {
@@ -105,11 +65,11 @@ extension ParseClient {
         }
     }
     
-    //FIXME: возвращает error other than 2xx!
+    ///Method for posting session to server via Facebook auth
     func PostSessionFacebook(completionHandlerForFacebookSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) {
         let dictionary = [JSONBodyKeys.facebookMobile: String(describing: FBSDKAccessToken.current())]
         
-        _ = taskToPOSTSessionFacebook(jsonBody: dictionary) {(results, error) in
+        _ = taskForPOSTSessionFacebook(jsonBody: dictionary) {(results, error) in
             if error != nil {
                 completionHandlerForFacebookSessionID(nil, error)
             } else {
@@ -134,11 +94,12 @@ extension ParseClient {
         }
     }
 
+    ///Method for deleting session ID when logout
     func DeleteSession(completionHandlerForDeleteSession: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) {
 
         let methodString = Methods.session
 
-        _ = taskToDeleteSession(methodString) { (results, error) in
+        _ = taskForDeleteSession(methodString) { (results, error) in
 
             if error != nil {
                 completionHandlerForDeleteSession(nil, error)
@@ -152,35 +113,8 @@ extension ParseClient {
         }
     }
     
-    func GetPublicUserData() {
-        
-        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/3903878747")!)
-        
-        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
-            
-            guard (error == nil) else {
-                print("There was an error with your request: \(error)")
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                print("Your request returned a status code other than 2xx!")
-                return
-            }
-            
-            guard let data = data else {
-                print ("No data was returned by the request!")
-                return
-            }
-            
-            let range = Range(uncheckedBounds: (5, data.count - 5))
-            let newData = data.subdata(in: range) /* subset response data! */
-            print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
-            
-        }
-        
-        task.resume()
-    }
+    ///Method for getting public user's data
+    func GetPublicUserData() {}
 }
 
 

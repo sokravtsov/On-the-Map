@@ -28,72 +28,15 @@ class ParseClient: NSObject {
         super.init()
     }
     
-    // substitute the key for the value that is contained within the method name
-    func substituteKeyInMethod(_ method: String, key: String, value: String) -> String? {
-        if method.range(of: "{\(key)}") != nil {
-            return method.replacingOccurrences(of: "{\(key)}", with: value)
-        } else {
-            return nil
-        }
-    }
+//    func substituteKeyInMethod(_ method: String, key: String, value: String) -> String? {
+//        if method.range(of: "{\(key)}") != nil {
+//            return method.replacingOccurrences(of: "{\(key)}", with: value)
+//        } else {
+//            return nil
+//        }
+//    }
     
-    func parseURLFromParameters(_ parameters: [String: AnyObject], withPathExtension:String? = nil) -> URL {
-        
-        var components = URLComponents()
-        components.scheme = Constants.apiScheme
-        components.host = Constants.apiHost
-        components.path = Constants.apiPath + (withPathExtension ?? "")
-        components.queryItems = [URLQueryItem]()
-        
-        for (key, value) in parameters {
-            let queryItem = URLQueryItem(name: key, value: "\(value)")
-            components.queryItems!.append(queryItem)
-        }
-
-        print(components.url!)
-        return components.url!
-    }
-    
-    func taskForGetStudentLocations(withUserID: String?, completionHandlerForGetStudentLocation: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) -> URLSessionDataTask {
-        var request:NSMutableURLRequest!
-        let parametersMethod:[String : AnyObject] = [ParseParameterKeys.limit : ParseParameterValues.limit as AnyObject,
-                                                     ParseParameterKeys.order : ParseParameterValues.order as AnyObject]
-        if withUserID != nil {
-            request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(withUserID)%22%7D")!)
-        } else {
-            request = NSMutableURLRequest(url: parseURLFromParameters(parametersMethod, withPathExtension: nil))
-        
-        }
-        request.addValue(HTTPHeaderField.parseAppID, forHTTPHeaderField: ParseParameterValues.apiKey)
-        request.addValue(HTTPHeaderField.parseRestApiKey, forHTTPHeaderField: ParseParameterValues.appID)
-
-        let task = session.dataTask(with: request as URLRequest) {(data, response, error) in
-
-            if error != nil {
-                completionHandlerForGetStudentLocation(nil, NSError(domain: "taskForGEtStudentLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: error!]))
-            }
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                print("The status code is not in order of 2xx")
-                return
-            }
-
-            print(statusCode)
-            guard let data = data else {
-                print("Cannot find the data")
-                return
-            }
-            let range = Range(uncheckedBounds: (0,data.count))
-            let newData = data.subdata(in: range)
-            self.convertData(newData, completionHandlerForConvertData:completionHandlerForGetStudentLocation)
-
-        }
-
-        task.resume()
-        return task
-    }
-
-    
-    func taskToPOSTSession(jsonBody:[String:String], completionHandlerForSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) -> URLSessionDataTask {
+    func taskForPOSTSession(jsonBody:[String:String], completionHandlerForSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) -> URLSessionDataTask {
         let userInfo = [JSONBodyKeys.udacityKey:jsonBody]
         var info: Data!
         do{
@@ -134,7 +77,7 @@ class ParseClient: NSObject {
         return task
     }
     
-    func taskToPOSTSessionFacebook(jsonBody:[String:String], completionHandlerForFacebookSessionID:@escaping(_ result:AnyObject?, _ error:NSError?)-> Void) -> URLSessionDataTask {
+    func taskForPOSTSessionFacebook(jsonBody:[String:String], completionHandlerForFacebookSessionID:@escaping(_ result:AnyObject?, _ error:NSError?)-> Void) -> URLSessionDataTask {
         
         let userInfo = [JSONBodyKeys.facebookMobile:jsonBody]
         var info: Data!
@@ -174,8 +117,46 @@ class ParseClient: NSObject {
         task.resume()
         return task
     }
+    
+    func taskForGetStudentLocations(withUserID: String?, completionHandlerForGetStudentLocation: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) -> URLSessionDataTask {
+        var request:NSMutableURLRequest!
+        let parametersMethod:[String : AnyObject] = [ParseParameterKeys.limit : ParseParameterValues.limit as AnyObject,
+                                                     ParseParameterKeys.order : ParseParameterValues.order as AnyObject]
+        if withUserID != nil {
+            request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(withUserID)%22%7D")!)
+        } else {
+            request = NSMutableURLRequest(url: parseURLFromParameters(parametersMethod, withPathExtension: nil))
+            
+        }
+        request.addValue(HTTPHeaderField.parseAppID, forHTTPHeaderField: ParseParameterValues.apiKey)
+        request.addValue(HTTPHeaderField.parseRestApiKey, forHTTPHeaderField: ParseParameterValues.appID)
+        
+        let task = session.dataTask(with: request as URLRequest) {(data, response, error) in
+            
+            if error != nil {
+                completionHandlerForGetStudentLocation(nil, NSError(domain: "taskForGEtStudentLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: error!]))
+            }
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+                print("The status code is not in order of 2xx")
+                return
+            }
+            
+            print(statusCode)
+            guard let data = data else {
+                print("Cannot find the data")
+                return
+            }
+            let range = Range(uncheckedBounds: (0,data.count))
+            let newData = data.subdata(in: range)
+            self.convertData(newData, completionHandlerForConvertData:completionHandlerForGetStudentLocation)
+            
+        }
+        
+        task.resume()
+        return task
+    }
 
-    func taskToDeleteSession(_ method: String, completionHandlerToDeleteSession: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+    func taskForDeleteSession(_ method: String, completionHandlerToDeleteSession: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         let urlString = Constants.getSessionURL + method
         let url = URL(string: urlString)
         let request = NSMutableURLRequest(url: url!)
@@ -214,6 +195,23 @@ class ParseClient: NSObject {
 
         task.resume()
         return task
+    }
+    
+    func parseURLFromParameters(_ parameters: [String: AnyObject], withPathExtension:String? = nil) -> URL {
+        
+        var components = URLComponents()
+        components.scheme = Constants.apiScheme
+        components.host = Constants.apiHost
+        components.path = Constants.apiPath + (withPathExtension ?? "")
+        components.queryItems = [URLQueryItem]()
+        
+        for (key, value) in parameters {
+            let queryItem = URLQueryItem(name: key, value: "\(value)")
+            components.queryItems!.append(queryItem)
+        }
+        
+        print(components.url!)
+        return components.url!
     }
 
     private func convertData(_ data: Data, completionHandlerForConvertData: (_ result:AnyObject?,_ error: NSError?) -> Void) {
