@@ -106,48 +106,46 @@ extension MapViewController: Setup {
     }
     
     func setupPinOnMap() {
-        
-        ParseClient.sharedInstance.getStudentLocations { (locations, error) in
-            
-            if let result = locations {
-                ParseClient.sharedInstance.studentLocations = result
-                print (result)
-                
-                for eachLocation in ParseClient.sharedInstance.studentLocations {
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.getStudentLocations(withUserID: nil) { (results, error) in
+                if let results = results {
                     
-                    let lat = CLLocationDegrees(eachLocation.latitude!)
-                    let long = CLLocationDegrees(eachLocation.longitude!)
+                    ParseClient.sharedInstance.studentLocations = results as! [StudentLocation]
+                    print (results)
                     
-                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    for eachLocation in ParseClient.sharedInstance.studentLocations {
+                        
+                        let lat = CLLocationDegrees(eachLocation.latitude!)
+                        let long = CLLocationDegrees(eachLocation.longitude!)
+                        
+                        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                        
+                        let first = eachLocation.firstName!
+                        let last = eachLocation.lastName!
+                        let mediaURL = eachLocation.mediaURL!
+                        
+                        let annotation = MKPointAnnotation()
+                        
+                        annotation.coordinate = coordinate
+                        annotation.title = "\(first) \(last)"
+                        annotation.subtitle = mediaURL
+                        
+                        ParseClient.sharedInstance.annotations.append(annotation)
+                    }
+                    performUIUpdatesOnMain {
+                        self.mapView.addAnnotations(ParseClient.sharedInstance.annotations)
+                    }
                     
-                    let first = eachLocation.firstName!
-                    let last = eachLocation.lastName!
-                    let mediaURL = eachLocation.mediaURL!
+                    self.needToUpdateMap = false
                     
-                    let annotation = MKPointAnnotation()
-                    
-                    annotation.coordinate = coordinate
-                    annotation.title = "\(first) \(last)"
-                    annotation.subtitle = mediaURL
-                    
-                    ParseClient.sharedInstance.annotations.append(annotation)
+                } else if error != nil {
+                    print(error!)
                 }
-                performUIUpdatesOnMain {
-                    self.mapView.addAnnotations(ParseClient.sharedInstance.annotations)
-                }
-                
-                self.needToUpdateMap = false
-                
-            } else {
-                print(error!)
             }
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
         }
     }
-    
-    
-    
-    
-    
 }
 
 

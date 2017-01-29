@@ -126,20 +126,26 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     // Facebook Delegate Methods
     
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
-        if result != nil {
-            self.facebookButton.isHidden = true
-            ParseClient.sharedInstance.PostSessionFacebook() { (results, error) in
-                if error == nil {
-                    performUIUpdatesOnMain {
-                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
-                        self.present(vc, animated: false, completion: nil)
-                        print("User Logged In")
-                        
+        if Reachability.isConnectedToNetwork() {
+            if result != nil {
+                self.facebookButton.isHidden = true
+                ParseClient.sharedInstance.PostSessionFacebook() { (results, error) in
+                    if error == nil {
+                        performUIUpdatesOnMain {
+                            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
+                            self.present(vc, animated: false, completion: nil)
+                            print("User Logged In")
+                            
+                        }
                     }
                 }
             }
+        } else {
+            performUIUpdatesOnMain {
+                self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            }
         }
+        
     }
 
 //        } else if result.isCancelled {
@@ -181,13 +187,18 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     }
     
     @IBAction func tapLogin(_ sender: Any) {
-        
-        ParseClient.sharedInstance.PostSession(userName: emailTextField.text!, password: passwordTextField.text!) { (results, error) in
-            if error == nil {
-                performUIUpdatesOnMain {
-                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
-                    self.present(vc, animated: false, completion: nil)
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.PostSession(userName: emailTextField.text!, password: passwordTextField.text!) { (results, error) in
+                if error == nil {
+                    performUIUpdatesOnMain {
+                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
+                        self.present(vc, animated: false, completion: nil)
+                    }
                 }
+            }
+        } else {
+            performUIUpdatesOnMain {
+                self.showAlert(title: "No internet connection", message: "Check connection and try again")
             }
         }
     }

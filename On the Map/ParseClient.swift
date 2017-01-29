@@ -28,53 +28,6 @@ class ParseClient: NSObject {
         super.init()
     }
     
-//    //FIXME: Uncomment parametrs
-//    func taskForPOSTMethod(_ method: String, /*parameters: [String:AnyObject],*/ jsonBody: String, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
-//        
-//        //FIXME: uncomment after logining
-//        //        var parametersWithApiKey = parameters
-//        //        parametersWithApiKey[ParameterKeys.ApiKey] = Constants.ApiKey as AnyObject?
-//        
-//        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
-//        request.httpMethod = "POST"
-//        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-//        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.httpBody = jsonBody.data(using: String.Encoding.utf8)
-//        
-//        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
-//            
-//            func sendError(_ error: String) {
-//                print(error)
-//                let userInfo = [NSLocalizedDescriptionKey : error]
-//                completionHandlerForPOST(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
-//            }
-//            
-//            guard (error == nil) else {
-//                sendError("There was an error with your request: \(error)")
-//                return
-//            }
-//            
-//            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-//                sendError("Your request returned a status code other than 2xx!")
-//                return
-//            }
-//            
-//            guard let data = data else {
-//                sendError("No data was returned by the request!")
-//                return
-//            }
-//            
-//            self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForPOST)
-//            print(NSString(data: data, encoding: String.Encoding.utf8.rawValue)!)
-//        }
-//        
-//        task.resume()
-//        
-//        return task
-//    }
-    
-    
     // substitute the key for the value that is contained within the method name
     func substituteKeyInMethod(_ method: String, key: String, value: String) -> String? {
         if method.range(of: "{\(key)}") != nil {
@@ -84,35 +37,61 @@ class ParseClient: NSObject {
         }
     }
     
-//    // given raw JSON, return a usable Foundation object
-//    private func convertDataWithCompletionHandler(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
-//        
-//        var parsedResult: AnyObject! = nil
-//        do {
-//            parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
-//        } catch {
-//            let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
-//            completionHandlerForConvertData(nil, NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))
-//        }
-//        
-//        completionHandlerForConvertData(parsedResult, nil)
-//    }
-    
-    func parseURLFromParameters(_ parameters: [String: AnyObject]) -> URL {
+    func parseURLFromParameters(_ parameters: [String: AnyObject], withPathExtension:String? = nil) -> URL {
         
         var components = URLComponents()
         components.scheme = Constants.apiScheme
         components.host = Constants.apiHost
-        components.path = Constants.apiPath
+        components.path = Constants.apiPath + (withPathExtension ?? "")
         components.queryItems = [URLQueryItem]()
         
         for (key, value) in parameters {
             let queryItem = URLQueryItem(name: key, value: "\(value)")
             components.queryItems!.append(queryItem)
         }
-        
+
+        print(components.url!)
         return components.url!
     }
+    
+    func taskForGetStudentLocations(withUserID: String?, completionHandlerForGetStudentLocation: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) -> URLSessionDataTask {
+        var request:NSMutableURLRequest!
+        let parametersMethod:[String : AnyObject] = [ParseParameterKeys.limit : ParseParameterValues.limit as AnyObject,
+                                                     ParseParameterKeys.order : ParseParameterValues.order as AnyObject]
+        if withUserID != nil {
+            request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(withUserID)%22%7D")!)
+        } else {
+            request = NSMutableURLRequest(url: parseURLFromParameters(parametersMethod, withPathExtension: nil))
+        
+        }
+        request.addValue(HTTPHeaderField.parseAppID, forHTTPHeaderField: ParseParameterValues.apiKey)
+        request.addValue(HTTPHeaderField.parseRestApiKey, forHTTPHeaderField: ParseParameterValues.appID)
+
+        let task = session.dataTask(with: request as URLRequest) {(data, response, error) in
+
+            if error != nil {
+                completionHandlerForGetStudentLocation(nil, NSError(domain: "taskForGEtStudentLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: error!]))
+            }
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+                print("The status code is not in order of 2xx")
+                return
+            }
+
+            print(statusCode)
+            guard let data = data else {
+                print("Cannot find the data")
+                return
+            }
+            let range = Range(uncheckedBounds: (0,data.count))
+            let newData = data.subdata(in: range)
+            self.convertData(newData, completionHandlerForConvertData:completionHandlerForGetStudentLocation)
+
+        }
+
+        task.resume()
+        return task
+    }
+
     
     func taskToPOSTSession(jsonBody:[String:String], completionHandlerForSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) -> URLSessionDataTask {
         let userInfo = [JSONBodyKeys.udacityKey:jsonBody]

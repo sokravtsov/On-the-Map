@@ -70,44 +70,50 @@ class TableViewController: UITableViewController {
     //MARK: - Actions
     
     @IBAction func refreshTableView(_ sender: Any) {
-        ParseClient.sharedInstance.studentLocations.removeAll()
-        getStudentLocations()
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.studentLocations.removeAll()
+            getStudentLocations()
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+        }
     }
     
     @IBAction func addPin(_ sender: Any) {
     }
     
     @IBAction func logOut(_ sender: Any) {
-        ParseClient.sharedInstance.DeleteSession() { (results, error) in
-            if error != nil {
-                ParseClient.sharedInstance.userID = ""
-                self.dismiss(animated: true, completion: nil)
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.DeleteSession() { (results, error) in
+                if error != nil {
+                    ParseClient.sharedInstance.userID = ""
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            
         }
     }
-    
-    
 }
 
 //MARK: - UdacityProtocol
 extension TableViewController: UdacityProtocol {
-    
     func getStudentLocations() {
-        
-        ParseClient.sharedInstance.getStudentLocations { (locations, error) in
-            
-            if let result = locations {
-                ParseClient.sharedInstance.studentLocations = result
-                print (result)
-                performUIUpdatesOnMain {
-                    self.UdacityTableView.reloadData()
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.getStudentLocations(withUserID: nil) { (results, error) in
+                if let results = results {
+                    ParseClient.sharedInstance.studentLocations = results as! [StudentLocation]
+                    print (results)
+                    performUIUpdatesOnMain {
+                        self.UdacityTableView.reloadData()
+                    }
+                } else if error != nil {
+                    print(error!)
                 }
-                
-            } else {
-                print(error!)
             }
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
         }
-        
     }
 }
 
