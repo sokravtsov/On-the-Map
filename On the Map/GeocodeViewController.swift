@@ -12,7 +12,7 @@ import MapKit
 
 class GeocodeViewController : UIViewController, MKMapViewDelegate {
     
-    var location: StudentLocation?
+    var location: StudentInformation?
     
     // MARK: Variables
     @IBOutlet weak var topView: UIView!

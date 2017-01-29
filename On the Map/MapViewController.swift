@@ -110,7 +110,7 @@ extension MapViewController: Setup {
             ParseClient.sharedInstance.getStudentLocations(withUserID: nil) { (results, error) in
                 if let results = results {
                     
-                    ParseClient.sharedInstance.studentLocations = results as! [StudentLocation]
+                    ParseClient.sharedInstance.studentLocations = results as! [StudentInformation]
                     print (results)
                     
                     for eachLocation in ParseClient.sharedInstance.studentLocations {

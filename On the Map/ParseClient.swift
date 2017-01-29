@@ -20,7 +20,7 @@ class ParseClient: NSObject {
     var firstName = ""
     var lastName = ""
     
-    var studentLocations = [StudentLocation]()
+    var studentLocations = [StudentInformation]()
     var annotations = [MKPointAnnotation]()
 
     

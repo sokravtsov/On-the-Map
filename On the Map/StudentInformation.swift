@@ -1,5 +1,5 @@
 //
-//  StudentLocation.swift
+//  StudentInformation.swift
 //  On the Map
 //
 //  Created by Sergey Kravtsov on 17.11.16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct StudentLocation {
+struct StudentInformation {
     
     // MARK: Properties
     
@@ -57,12 +57,12 @@ struct StudentLocation {
         updatedAt = dictionary[ParseClient.JSONResponseKeys.updatedAt] != nil ? dictionary[ParseClient.JSONResponseKeys.updatedAt] as? String : ""
     }
     
-    static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentLocation] {
+    static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentInformation] {
         
 //        var locations = [StudentLocation]()
         
         for result in results {
-            ParseClient.sharedInstance.studentLocations.append(StudentLocation(dictionary: result))
+            ParseClient.sharedInstance.studentLocations.append(StudentInformation(dictionary: result))
         }
         return ParseClient.sharedInstance.studentLocations
     }

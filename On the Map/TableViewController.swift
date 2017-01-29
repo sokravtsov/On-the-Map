@@ -43,7 +43,7 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! TableViewCell
-        let studentLocation = ParseClient.sharedInstance.studentLocations[(indexPath as NSIndexPath).row] as StudentLocation
+        let studentLocation = ParseClient.sharedInstance.studentLocations[(indexPath as NSIndexPath).row] as StudentInformation
         if studentLocation.firstName == "" && studentLocation.lastName == "" {
             cell.nameLabel.text = "Anonymous"
         } else {
@@ -53,7 +53,7 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let studentLocation = ParseClient.sharedInstance.studentLocations[(indexPath as NSIndexPath).row] as StudentLocation
+        let studentLocation = ParseClient.sharedInstance.studentLocations[(indexPath as NSIndexPath).row] as StudentInformation
         let urlString = studentLocation.mediaURL!
         let app = UIApplication.shared
         if urlString != "" {
@@ -102,7 +102,7 @@ extension TableViewController: UdacityProtocol {
         if Reachability.isConnectedToNetwork() {
             ParseClient.sharedInstance.getStudentLocations(withUserID: nil) { (results, error) in
                 if let results = results {
-                    ParseClient.sharedInstance.studentLocations = results as! [StudentLocation]
+                    ParseClient.sharedInstance.studentLocations = results as! [StudentInformation]
                     print (results)
                     performUIUpdatesOnMain {
                         self.UdacityTableView.reloadData()
