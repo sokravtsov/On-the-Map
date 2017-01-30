@@ -82,13 +82,14 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     @IBAction func addPinOnMap(_ sender: Any) {
         
         if Reachability.isConnectedToNetwork() {
-            ParseClient.sharedInstance.GetPublicUserData() {(results,error) in
+            
+            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results,error) in
                 if error != nil {
                     print (error!)
                 }
             }
             
-            if ParseClient.sharedInstance.objectID == "" {
+            if ParseClient.sharedInstance.objectID == nil {
                 self.performSegue(withIdentifier: "addPinFromMap", sender: self)
             } else {
                 self.showAlertWithAction()
@@ -102,7 +103,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
         if Reachability.isConnectedToNetwork() {
             ParseClient.sharedInstance.DeleteSession() { (results, error) in
                 if error != nil {
-                    ParseClient.sharedInstance.userID = ""
+                    ParseClient.sharedInstance.userID = nil
                     performUIUpdatesOnMain {
                         self.dismiss(animated: true, completion: nil)
                     }
@@ -133,7 +134,7 @@ extension MapViewController: Setup {
     
     func setupPinOnMap() {
         if Reachability.isConnectedToNetwork() {
-            ParseClient.sharedInstance.getStudentLocations(withUserID: nil) { (results, error) in
+            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: nil) { (results, error) in
                 if let results = results {
                     
                     ParseClient.sharedInstance.studentLocations = results as! [StudentInformation]

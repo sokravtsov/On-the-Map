@@ -80,12 +80,12 @@ class TableViewController: UITableViewController {
     
     @IBAction func addPin(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
-            ParseClient.sharedInstance.GetPublicUserData() {(results,error) in
+            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results,error) in
                 if error != nil {
                     print (error!)
                 }
             }
-            if ParseClient.sharedInstance.objectID == "" {
+            if ParseClient.sharedInstance.objectID == nil {
                 self.performSegue(withIdentifier: "addPinFromMap", sender: self)
             } else {
                 self.showAlertWithActionFromTable()
@@ -99,7 +99,7 @@ class TableViewController: UITableViewController {
         if Reachability.isConnectedToNetwork() {
             ParseClient.sharedInstance.DeleteSession() { (results, error) in
                 if error != nil {
-                    ParseClient.sharedInstance.userID = ""
+                    ParseClient.sharedInstance.userID = nil
                     self.dismiss(animated: true, completion: nil)
                 }
             }
@@ -114,7 +114,7 @@ class TableViewController: UITableViewController {
 extension TableViewController: UdacityProtocol {
     func getStudentLocations() {
         if Reachability.isConnectedToNetwork() {
-            ParseClient.sharedInstance.getStudentLocations(withUserID: nil) { (results, error) in
+            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: nil) { (results, error) in
                 if let results = results {
                     ParseClient.sharedInstance.studentLocations = results as! [StudentInformation]
                     print (results)

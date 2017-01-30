@@ -14,12 +14,13 @@ class ParseClient: NSObject {
     static let sharedInstance = ParseClient()
     
     var session = URLSession.shared
-    var requestToken = ""
-    var objectID = ""
-    var sessionID = ""
-    var userID = ""
-    var firstName = ""
-    var lastName = ""
+    var requestToken: String? = nil
+    var objectID: String? = nil
+    var sessionID: String? = nil
+    var userID: String? = nil
+    var uniqueKey: String? = nil
+    var firstName: String? = nil
+    var lastName: String? = nil
     var studentLocations = [StudentInformation]()
     var annotations = [MKPointAnnotation]()
     
@@ -110,12 +111,12 @@ class ParseClient: NSObject {
         return task
     }
     
-    func taskForGetStudentLocations(withUserID: String?, completionHandlerForGetStudentLocation: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) -> URLSessionDataTask {
+    func taskForGetStudentLocations(withUniqueKey: String?, completionHandlerForGetStudentLocation: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) -> URLSessionDataTask {
         var request:NSMutableURLRequest!
         let parametersMethod:[String : AnyObject] = [ParseParameterKeys.limit : ParseParameterValues.limit as AnyObject,
                                                      ParseParameterKeys.order : ParseParameterValues.order as AnyObject]
-        if withUserID != nil {
-            request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(withUserID)%22%7D")!)
+        if withUniqueKey != nil {
+            request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(withUniqueKey)%22%7D")!)
         } else {
             request = NSMutableURLRequest(url: parseURLFromParameters(parametersMethod, withPathExtension: nil))
             

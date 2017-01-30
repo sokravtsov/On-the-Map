@@ -36,6 +36,8 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     ///Udacity sing up URL
     let url = URL(string: "https://auth.udacity.com/sign-up?next=https%3A%2F%2Fclassroom.udacity.com%2Fauthenticated")!
     
+    var activityIndicator = ActivityIndicator()
+    
     ///MARK: Methods
     
     ///Override of **viewDidLoad()** method
@@ -124,7 +126,6 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     }
     
     // Facebook Delegate Methods
-    
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         if Reachability.isConnectedToNetwork() {
             if result != nil {
@@ -145,25 +146,10 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
                 self.showAlert(title: "No internet connection", message: "Check connection and try again")
             }
         }
-        
     }
-
-//        } else if result.isCancelled {
-//            // Handle cancellations
-//        } else {
-//            // If you ask for multiple permissions at once, you
-//            // should check if specific permissions missing
-//            if result.grantedPermissions.contains("email") {
-//                // Do work
-//            }
-//        }
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         print("User Logged Out")
-    }
-    
-    func returnUserData() {
-        
     }
     
     private func configureUI() {

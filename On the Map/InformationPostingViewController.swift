@@ -93,6 +93,7 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     
     @IBAction func tapSubmitButton(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
+            
             ParseClient.sharedInstance.GetPublicUserData() {(results,error) in
                 if error != nil {
                     print (error!)
@@ -109,7 +110,7 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
                 ParseClient.JSONResponseKeys.uniqueKey : ParseClient.sharedInstance.userID as AnyObject
             ]
             
-            if ParseClient.sharedInstance.objectID == "" {
+            if ParseClient.sharedInstance.objectID == nil {
                 print ("PostStidentLocation....")
                 ParseClient.sharedInstance.PostStudentLocation(json: studentInfo) {(results,error) in
                     if error != nil {
@@ -124,7 +125,7 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
                 }
             } else {
                 print ("OverwriteStidentLocation....")
-                ParseClient.sharedInstance.overwriteStudentLocation(json: studentInfo) {(results, error) in
+                ParseClient.sharedInstance.OverwriteStudentLocation(json: studentInfo) {(results, error) in
                     if error != nil {
                         print (error!)
                     }

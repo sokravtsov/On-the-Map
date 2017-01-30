@@ -11,25 +11,17 @@ import Foundation
 private var activityIndicator: ActivityIndicator?
 
 protocol activityIndicatorDelegate {
-    
+    func showActivityIndicator()
+    func hideActivityIndicator()
 }
 
 extension UIViewController: activityIndicatorDelegate {
+    
     internal func showActivityIndicator() {
         if activityIndicator?.superview != nil {
             activityIndicator?.removeFromSuperview()
         }
         activityIndicator = ActivityIndicator(frame: UIScreen.screenBounds())
-        activityIndicator?.activityIndicator.startAnimating()
-        activityIndicator?.alpha = 1
-        self.view.addSubview(activityIndicator!)
-    }
-    
-    internal func showActivityIndicator(topField: CGFloat) {
-        if activityIndicator?.superview != nil {
-            activityIndicator?.removeFromSuperview()
-        }
-        activityIndicator = ActivityIndicator(frame: CGRect(x: 0, y: 0 + topField, width: UIScreen.screenWidth(), height: UIScreen.screenHeight() - (0 + topField)))
         activityIndicator?.activityIndicator.startAnimating()
         activityIndicator?.alpha = 1
         self.view.addSubview(activityIndicator!)

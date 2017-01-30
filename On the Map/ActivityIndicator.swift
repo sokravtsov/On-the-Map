@@ -15,7 +15,7 @@ final class ActivityIndicator: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+//        self.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: heightActivityIndicator, height: heightActivityIndicator)
         activityIndicator.activityIndicatorViewStyle = .whiteLarge
         activityIndicator.color = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)

@@ -11,23 +11,21 @@ import Foundation
 extension ParseClient {
     
     ///Method for get Student Location with User ID, if userID = nil -> for 100 Student Locations
-    func getStudentLocations(withUserID: String?, completionHandlerForGETStudentLocations: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) {
-        var userID: String?
-        if withUserID != nil {
-            userID = withUserID
-        } else {
-            userID = nil
-        }
+    func getStudentLocations(withUniqueKey: String?, completionHandlerForGETStudentLocations: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) {
 
-        _ = taskForGetStudentLocations(withUserID: userID) {(results, error) in
+        _ = taskForGetStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results, error) in
 
             if error != nil {
                 completionHandlerForGETStudentLocations(nil, error)
             } else {
-                if let results = results?[JSONResponseKeys.results] {
-                    print(results!)
-                    let studentLocations = StudentInformation.locationsFromResults(results as! [[String : AnyObject]])
-                    completionHandlerForGETStudentLocations(studentLocations as AnyObject?,nil)
+                if let results = results?[JSONResponseKeys.results] as? [String:AnyObject] {
+                    if let objectID = results[JSONResponseKeys.objectID] as? String {
+                        ParseClient.sharedInstance.objectID = objectID
+                        print ("Object ID = \(objectID)")
+                    }
+                    print(results)
+                    let studentLocations = StudentInformation.locationsFromResults([results])
+                    completionHandlerForGETStudentLocations(studentLocations as AnyObject?, nil)
                 } else {
                     completionHandlerForGETStudentLocations(nil, NSError(domain: "getStudentLocations parsing", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not parse the data"]))
                 }
@@ -46,14 +44,16 @@ extension ParseClient {
             } else {
                 if let sessionResults = results as? [String:AnyObject] {
                     if let accounts = sessionResults[JSONResponseKeys.account] as? [String:AnyObject] {
-                        if let userKey = accounts[JSONResponseKeys.key] as? String {
-                            ParseClient.sharedInstance.userID = userKey
+                        if let uniqueKey = accounts[JSONResponseKeys.key] as? String {
+                            ParseClient.sharedInstance.userID = uniqueKey
+                            print ("Unique key = \(uniqueKey)")
                         }
                     }
                     
                     if let session = sessionResults[JSONResponseKeys.session] as? [String:AnyObject] {
                         if let sessionID = session[JSONResponseKeys.sessionId] as? String {
                             ParseClient.sharedInstance.sessionID = sessionID
+                            print ("Session ID = \(sessionID)")
                         }
                     }
                     
@@ -123,6 +123,10 @@ extension ParseClient {
                 completionHandlerForPostingStudentLocation(nil, error)
             } else {
                 if let results = results as? [String:AnyObject] {
+                    if let objectID = results[JSONResponseKeys.objectID] as? String {
+                        ParseClient.sharedInstance.objectID = objectID
+                        print ("Object ID = \(objectID)")
+                    }
                     completionHandlerForPostingStudentLocation(results as AnyObject?, nil)
                 } else {
                     completionHandlerForPostingStudentLocation(nil, NSError(domain: "postStudentLocation parsing", code: 1, userInfo:[NSLocalizedDescriptionKey: "Could not parse the data"]))
@@ -139,13 +143,18 @@ extension ParseClient {
             if error != nil {
                 completionHandlerForUserData(nil, error)
             } else {
-                if let results = results {
-                    self.firstName = (results[JSONResponseKeys.firstName] as? String)!
-                    self.lastName = (results[JSONResponseKeys.lastName] as? String)!
-                    if results[JSONResponseKeys.objectID] != nil {
-                        self.objectID = (results[JSONResponseKeys.objectID] as? String)!
+                if let resultDictionary = results as? [String : AnyObject] {
+                    if let userDictionary = resultDictionary["user"] as? [String : AnyObject] {
+                        
+                        if let firstName = userDictionary["nickname"] as? String {
+                            ParseClient.sharedInstance.firstName = firstName
+                        }
+                        if let lastName = userDictionary["last_name"] as? String {
+                            ParseClient.sharedInstance.lastName = lastName
+                        }
+                        
+                        completionHandlerForUserData(results, nil)
                     }
-                    completionHandlerForUserData(results, nil)
                 } else {
                     completionHandlerForUserData(nil, NSError(domain: "UserInfo", code: 1, userInfo:[NSLocalizedDescriptionKey:"Could not parse the data"]))
                 }
@@ -153,7 +162,7 @@ extension ParseClient {
         }
     }
     
-    func overwriteStudentLocation(json: [String:AnyObject], completionHandlerForOverwritingStudentLocation: @escaping(_ results:AnyObject?,_ error: NSError?) -> Void) {
+    func OverwriteStudentLocation(json: [String:AnyObject], completionHandlerForOverwritingStudentLocation: @escaping(_ results:AnyObject?,_ error: NSError?) -> Void) {
         let methodString = "/\(ParseClient.sharedInstance.objectID)"
         
         let httpBody = json
@@ -172,9 +181,3 @@ extension ParseClient {
         }
     }
 }
-
-
-
-
-
-

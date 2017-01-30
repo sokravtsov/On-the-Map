@@ -13,12 +13,4 @@ extension UIScreen {
     static func screenBounds() -> CGRect {
         return UIScreen.main.bounds
     }
-    
-    static func screenWidth() -> CGFloat {
-        return UIScreen.main.bounds.width
-    }
-    
-    static func screenHeight() -> CGFloat {
-        return UIScreen.main.bounds.height
-    }
 }
