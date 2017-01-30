@@ -19,7 +19,6 @@
 		82FA5B471E1CEAA200C50759 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B431E1CEAA200C50759 /* FBSDKCoreKit.framework */; };
 		82FA5B4D1E1CF5F300C50759 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B4B1E1CF5F300C50759 /* Bolts.framework */; };
 		82FA5B4E1E1CF5F300C50759 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B4C1E1CF5F300C50759 /* FBSDKLoginKit.framework */; };
-		82FEC44A1DDA529B005A3744 /* GeocodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FEC4491DDA529B005A3744 /* GeocodeViewController.swift */; };
 		A134525C1DC8A52C00111DB2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525B1DC8A52C00111DB2 /* MapViewController.swift */; };
 		A134525E1DC8A57E00111DB2 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525D1DC8A57E00111DB2 /* TableViewController.swift */; };
 		A13452601DC8A60B00111DB2 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525F1DC8A60B00111DB2 /* TableViewCell.swift */; };
@@ -43,7 +42,6 @@
 		82FA5B4A1E1CEEEC00C50759 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		82FA5B4B1E1CF5F300C50759 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
 		82FA5B4C1E1CF5F300C50759 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		82FEC4491DDA529B005A3744 /* GeocodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeocodeViewController.swift; sourceTree = "<group>"; };
 		A134525B1DC8A52C00111DB2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		A134525D1DC8A57E00111DB2 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A134525F1DC8A60B00111DB2 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -95,7 +93,6 @@
 				A134525B1DC8A52C00111DB2 /* MapViewController.swift */,
 				A134525D1DC8A57E00111DB2 /* TableViewController.swift */,
 				82A1C2CB1DD906E300D35312 /* InformationPostingViewController.swift */,
-				82FEC4491DDA529B005A3744 /* GeocodeViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -231,7 +228,6 @@
 				826AC1B61E32A7D300BF8A0F /* ParseNetworking.swift in Sources */,
 				82228D701DC7E26D00F64F54 /* LoginViewController.swift in Sources */,
 				A18557E81DC7899D004A8C02 /* AppDelegate.swift in Sources */,
-				82FEC44A1DDA529B005A3744 /* GeocodeViewController.swift in Sources */,
 				826AC1B41E32108200BF8A0F /* GCDBlackBox.swift in Sources */,
 				826AC1B81E32AAC500BF8A0F /* ParseClient.swift in Sources */,
 				A13452601DC8A60B00111DB2 /* TableViewCell.swift in Sources */,

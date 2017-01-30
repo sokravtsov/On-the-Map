@@ -38,9 +38,6 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     //MARK: Properties
     
     var coordinates: CLLocationCoordinate2D!
-
-//    var locationString = ""
-//    var websiteString = ""
     
     //MARK: Life cycle
     
@@ -58,22 +55,16 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     }
     
     //MARK: TextFieldDelegate Methods
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField.text! == "Enter Your Location Here" && textField.text! == "Enter a link to share here" {
-            textField.text! = ""
-        }
+        
+        textField.text! = ""
     }
-    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        if textField.text != "" {
-//            self.locationString = textField.text!
-//        }
-//    }
     
     //MARK: Actions
     

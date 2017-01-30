@@ -22,19 +22,11 @@ class ParseClient: NSObject {
     
     var studentLocations = [StudentInformation]()
     var annotations = [MKPointAnnotation]()
-
+    
     
     override init() {
         super.init()
     }
-    
-//    func substituteKeyInMethod(_ method: String, key: String, value: String) -> String? {
-//        if method.range(of: "{\(key)}") != nil {
-//            return method.replacingOccurrences(of: "{\(key)}", with: value)
-//        } else {
-//            return nil
-//        }
-//    }
     
     func taskForPOSTSession(jsonBody:[String:String], completionHandlerForSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) -> URLSessionDataTask {
         let userInfo = [JSONBodyKeys.udacityKey:jsonBody]
@@ -94,7 +86,7 @@ class ParseClient: NSObject {
         request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.acceptField)
         request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.contentType)
         request.httpBody = info
-
+        
         let task = session.dataTask(with: request as URLRequest) {(data,response,error) in
             if error != nil{
                 let userInfo = [NSLocalizedDescriptionKey: error]
@@ -110,10 +102,10 @@ class ParseClient: NSObject {
             let newData = data.subdata(in: range)
             print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
             self.convertData(newData, completionHandlerForConvertData: completionHandlerForFacebookSessionID)
-
+            
             
         }
-
+        
         task.resume()
         return task
     }
@@ -155,7 +147,7 @@ class ParseClient: NSObject {
         task.resume()
         return task
     }
-
+    
     func taskForDeleteSession(_ method: String, completionHandlerToDeleteSession: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         let urlString = Constants.getSessionURL + method
         let url = URL(string: urlString)
@@ -169,7 +161,7 @@ class ParseClient: NSObject {
         if let xsrfCookie = xsrfCookie {
             request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
         }
-
+        
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             if error != nil {
                 let userInfo = [NSLocalizedDescriptionKey: error]
@@ -179,20 +171,63 @@ class ParseClient: NSObject {
                 print("The status code is not in order of 2xx")
                 return
             }
-
+            
             print (statusCode)
-
+            
             guard let data = data else {
                 print("Cannot find the data")
                 return
             }
-
+            
             let range = Range(uncheckedBounds: (5, data.count))
             let newData = data.subdata(in: range)
             print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
             self.convertData(newData, completionHandlerForConvertData: completionHandlerToDeleteSession)
         }
-
+        
+        task.resume()
+        return task
+    }
+    
+    func taskForPOSTStudentLocation(jsonBody:[String:AnyObject], completionHandlerForPOSTStudentLocation:@escaping(_ results: AnyObject?,_ error:NSError?) -> Void) -> URLSessionDataTask {
+        
+        let userInfo = jsonBody
+        var info: Data!
+        do{
+            info = try JSONSerialization.data(withJSONObject: userInfo, options: JSONSerialization.WritingOptions.prettyPrinted)
+        } catch {
+            print("Cannot encode the data")
+        }
+        
+        let request = NSMutableURLRequest(url: parseURLFromParameters([:],withPathExtension: nil))
+        request.httpMethod = "POST"
+        request.addValue(HTTPHeaderField.parseAppID, forHTTPHeaderField: ParseParameterValues.apiKey)
+        request.addValue(HTTPHeaderField.parseRestApiKey, forHTTPHeaderField:ParseParameterValues.appID)
+        request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.contentType)
+        request.httpBody = info
+        
+        let task = session.dataTask(with: request as URLRequest) {(data,response,error) in
+            
+            if error != nil {
+                let userInfo = [NSLocalizedDescriptionKey:error]
+                completionHandlerForPOSTStudentLocation(nil, NSError(domain: "taskForPOSTStudentLocation", code: 1, userInfo: userInfo))
+            }
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("The status code is not in order of 2xx")
+                return
+            }
+            
+            print(statusCode)
+            guard let data = data else {
+                print("Could not find the data")
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (5, data.count))
+            let newData = data.subdata(in: range)
+            self.convertData(newData, completionHandlerForConvertData: completionHandlerForPOSTStudentLocation)
+            
+        }
         task.resume()
         return task
     }
@@ -213,7 +248,7 @@ class ParseClient: NSObject {
         print(components.url!)
         return components.url!
     }
-
+    
     private func convertData(_ data: Data, completionHandlerForConvertData: (_ result:AnyObject?,_ error: NSError?) -> Void) {
         var parsedData:AnyObject!
         do {
@@ -227,4 +262,5 @@ class ParseClient: NSObject {
         }
         completionHandlerForConvertData(parsedData,nil)
     }
+    
 }

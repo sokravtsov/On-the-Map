@@ -113,8 +113,11 @@ extension ParseClient {
         }
     }
     
+    
+    
     ///Method for getting public user's data
     func GetPublicUserData() {}
+
 }
 
 
