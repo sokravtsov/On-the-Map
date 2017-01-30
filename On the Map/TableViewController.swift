@@ -79,6 +79,20 @@ class TableViewController: UITableViewController {
     }
     
     @IBAction func addPin(_ sender: Any) {
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.GetPublicUserData() {(results,error) in
+                if error != nil {
+                    print (error!)
+                }
+            }
+            if ParseClient.sharedInstance.objectID == "" {
+                self.performSegue(withIdentifier: "addPinFromMap", sender: self)
+            } else {
+                self.showAlertWithActionFromTable()
+            }
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+        }
     }
     
     @IBAction func logOut(_ sender: Any) {

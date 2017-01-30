@@ -82,12 +82,63 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func tapFindButton(_ sender: Any) {
-        firstView.isHidden = true
-        secondView.isHidden = false
-        FindLocationByString()
+        if Reachability.isConnectedToNetwork() {
+            firstView.isHidden = true
+            secondView.isHidden = false
+            FindLocationByString()
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+        }
     }
     
     @IBAction func tapSubmitButton(_ sender: Any) {
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.GetPublicUserData() {(results,error) in
+                if error != nil {
+                    print (error!)
+                }
+            }
+            
+            let studentInfo:[String:AnyObject] = [
+                ParseClient.JSONResponseKeys.firstName : ParseClient.sharedInstance.firstName as AnyObject,
+                ParseClient.JSONResponseKeys.lastName : ParseClient.sharedInstance.lastName as AnyObject,
+                ParseClient.JSONResponseKeys.mapString : adressTextField.text as AnyObject,
+                ParseClient.JSONResponseKeys.mediaURL : websiteTextField.text as AnyObject,
+                ParseClient.JSONResponseKeys.latitude : self.coordinates.latitude.description as AnyObject,
+                ParseClient.JSONResponseKeys.longitude : self.coordinates.longitude.description as AnyObject,
+                ParseClient.JSONResponseKeys.uniqueKey : ParseClient.sharedInstance.userID as AnyObject
+            ]
+            
+            if ParseClient.sharedInstance.objectID == "" {
+                print ("PostStidentLocation....")
+                ParseClient.sharedInstance.PostStudentLocation(json: studentInfo) {(results,error) in
+                    if error != nil {
+                        print(error!)
+                    }
+                    if let results = results as? [String:AnyObject] {
+                        let objectId = results[ParseClient.JSONResponseKeys.objectID] as? String
+                        print(results[ParseClient.JSONResponseKeys.createdAt]!)
+                        print(objectId!)
+                        ParseClient.sharedInstance.objectID = objectId!
+                    }
+                }
+            } else {
+                print ("OverwriteStidentLocation....")
+                ParseClient.sharedInstance.overwriteStudentLocation(json: studentInfo) {(results, error) in
+                    if error != nil {
+                        print (error!)
+                    }
+                    if let results = results as? [String:AnyObject] {
+                        print(results[ParseClient.JSONResponseKeys.createdAt]!)
+                    }
+                }
+            }
+            performUIUpdatesOnMain {
+                self.dismiss(animated: true, completion: nil)
+            }
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+        }
     }
 }
 

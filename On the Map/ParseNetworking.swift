@@ -113,11 +113,64 @@ extension ParseClient {
         }
     }
     
-    
+    func PostStudentLocation(json: [String:AnyObject],completionHandlerForPostingStudentLocation:@escaping(_ results: AnyObject?,_ error: NSError?) -> Void) {
+        
+        let httpBody = json
+        
+        _ = taskForPOSTStudentLocation(jsonBody: httpBody) {(results, error) in
+            
+            if error != nil {
+                completionHandlerForPostingStudentLocation(nil, error)
+            } else {
+                if let results = results as? [String:AnyObject] {
+                    completionHandlerForPostingStudentLocation(results as AnyObject?, nil)
+                } else {
+                    completionHandlerForPostingStudentLocation(nil, NSError(domain: "postStudentLocation parsing", code: 1, userInfo:[NSLocalizedDescriptionKey: "Could not parse the data"]))
+                }
+            }
+        }
+    }
     
     ///Method for getting public user's data
-    func GetPublicUserData() {}
-
+    func GetPublicUserData(completionHandlerForUserData: @escaping(_ results: AnyObject?,_ error:NSError?) -> Void) {
+        
+        taskForGETUsersData() {(results,error) in
+            
+            if error != nil {
+                completionHandlerForUserData(nil, error)
+            } else {
+                if let results = results {
+                    self.firstName = (results[JSONResponseKeys.firstName] as? String)!
+                    self.lastName = (results[JSONResponseKeys.lastName] as? String)!
+                    if results[JSONResponseKeys.objectID] != nil {
+                        self.objectID = (results[JSONResponseKeys.objectID] as? String)!
+                    }
+                    completionHandlerForUserData(results, nil)
+                } else {
+                    completionHandlerForUserData(nil, NSError(domain: "UserInfo", code: 1, userInfo:[NSLocalizedDescriptionKey:"Could not parse the data"]))
+                }
+            }
+        }
+    }
+    
+    func overwriteStudentLocation(json: [String:AnyObject], completionHandlerForOverwritingStudentLocation: @escaping(_ results:AnyObject?,_ error: NSError?) -> Void) {
+        let methodString = "/\(ParseClient.sharedInstance.objectID)"
+        
+        let httpBody = json
+        
+        _ = taskForPUTStudentLocation(jsonBody: httpBody, method: methodString) {(results,error) in
+            
+            if error != nil {
+                completionHandlerForOverwritingStudentLocation(nil, error)
+            } else {
+                if let results = results {
+                    completionHandlerForOverwritingStudentLocation(results, nil)
+                } else {
+                    completionHandlerForOverwritingStudentLocation(nil, NSError(domain: "overwriteStudentLocation", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot parse the data"]))
+                }
+            }
+        }
+    }
 }
 
 

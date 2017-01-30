@@ -239,7 +239,6 @@
                             <barButtonItem image="addPin" id="kNQ-Ft-qI8">
                                 <connections>
                                     <action selector="addPinOnMap:" destination="ZqL-Uc-c4W" id="1Wi-K2-ru3"/>
-                                    <segue destination="boe-1t-YJO" kind="presentation" id="ePr-vG-518"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -250,6 +249,7 @@
                         <outlet property="mapView" destination="Gl9-zz-yIE" id="oaV-c6-Sul"/>
                         <outlet property="pinButton" destination="kNQ-Ft-qI8" id="fpT-hf-Vp5"/>
                         <outlet property="refreshButton" destination="woO-qM-Sln" id="ueR-ar-nur"/>
+                        <segue destination="boe-1t-YJO" kind="presentation" identifier="addPinFromMap" id="Sph-0Q-nnz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oGp-SY-gco" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -482,7 +482,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rUe-qm-hj6" id="dfx-PZ-kMq">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="tyw-GH-fvo">
@@ -540,7 +540,6 @@
                             <barButtonItem image="addPin" id="kQl-tX-bHl">
                                 <connections>
                                     <action selector="addPin:" destination="w6n-Eq-upb" id="4we-Pv-vny"/>
-                                    <segue destination="boe-1t-YJO" kind="presentation" id="IdQ-ju-e1g"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -551,6 +550,7 @@
                         <outlet property="logoutButton" destination="p6l-NS-IRd" id="pQ0-as-klE"/>
                         <outlet property="pinButton" destination="kQl-tX-bHl" id="Gva-ZM-Cvr"/>
                         <outlet property="refreshButton" destination="Igv-Tr-cDw" id="6V0-QJ-CJG"/>
+                        <segue destination="boe-1t-YJO" kind="presentation" identifier="addPinFromTable" id="82g-it-IGb"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="znN-8J-4ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -569,6 +569,6 @@
         <image name="refresh" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ePr-vG-518"/>
+        <segue reference="Sph-0Q-nnz"/>
     </inferredMetricsTieBreakers>
 </document>

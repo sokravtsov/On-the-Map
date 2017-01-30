@@ -69,23 +69,49 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     }
     
     @IBAction func refreshMap(_ sender: Any) {
-        self.mapView.removeAnnotations(ParseClient.sharedInstance.annotations)
-        ParseClient.sharedInstance.studentLocations.removeAll()
-        ParseClient.sharedInstance.annotations.removeAll()
-        setupPinOnMap()
+        if Reachability.isConnectedToNetwork() {
+            self.mapView.removeAnnotations(ParseClient.sharedInstance.annotations)
+            ParseClient.sharedInstance.studentLocations.removeAll()
+            ParseClient.sharedInstance.annotations.removeAll()
+            setupPinOnMap()
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+        }
     }
     
     @IBAction func addPinOnMap(_ sender: Any) {
-
+        
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.GetPublicUserData() {(results,error) in
+                if error != nil {
+                    print (error!)
+                }
+            }
+            
+            if ParseClient.sharedInstance.objectID == "" {
+                self.performSegue(withIdentifier: "addPinFromMap", sender: self)
+            } else {
+                self.showAlertWithAction()
+            }
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+        }
     }
     
     @IBAction func logOut(_ sender: Any) {
-        ParseClient.sharedInstance.DeleteSession() { (results, error) in
-            if error != nil {
-                ParseClient.sharedInstance.userID = ""
-                self.dismiss(animated: true, completion: nil)
+        if Reachability.isConnectedToNetwork() {
+            ParseClient.sharedInstance.DeleteSession() { (results, error) in
+                if error != nil {
+                    ParseClient.sharedInstance.userID = ""
+                    performUIUpdatesOnMain {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
             }
+        } else {
+            self.showAlert(title: "No internet connection", message: "Check connection and try again")
         }
+        
     }
     
 }

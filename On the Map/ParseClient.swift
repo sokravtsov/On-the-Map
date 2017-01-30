@@ -15,11 +15,11 @@ class ParseClient: NSObject {
     
     var session = URLSession.shared
     var requestToken = ""
+    var objectID = ""
     var sessionID = ""
     var userID = ""
     var firstName = ""
     var lastName = ""
-    
     var studentLocations = [StudentInformation]()
     var annotations = [MKPointAnnotation]()
     
@@ -232,6 +232,82 @@ class ParseClient: NSObject {
         return task
     }
     
+    func taskForGETUsersData(completionHandler: @escaping (_ result: AnyObject?, _ error:NSError?) -> Void) {
+        
+        let urlString = Constants.getSessionURL+Methods.users+"/\(userID)"
+        let url = URL(string: urlString)
+        let request = URLRequest(url: url!)
+        let task = session.dataTask(with: request) {(data,response,error) in
+            
+            if error != nil {
+                print("There was an error with the request")
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                completionHandler(nil, NSError(domain:"deleteSessionID", code: 1,userInfo: userInfo))
+            } else {
+                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                    print("The status code is not in order of 2xx")
+                    return
+                }
+                
+                print(statusCode)
+                guard let data = data else {
+                    print("Cannot find the user's data")
+                    return
+                }
+                
+                let range = Range(uncheckedBounds: (5,data.count))
+                let newData = data.subdata(in: range)
+                print(NSString(data:newData, encoding:String.Encoding.utf8.rawValue)!)
+                self.convertData(newData, completionHandlerForConvertData: completionHandler)
+            }
+        }
+        task.resume()
+    }
+    
+    func taskForPUTStudentLocation(jsonBody:[String:AnyObject], method:String, completionHandlerForPUTStudentLocation: @escaping(_ results:AnyObject?,_ error:NSError?) -> Void) -> URLSessionDataTask {
+    
+        let request = NSMutableURLRequest(url: parseURLFromParameters([:], withPathExtension: method))
+        request.httpMethod = "PUT"
+        let userInfo = jsonBody
+        var info: Data!
+        do{
+            info = try JSONSerialization.data(withJSONObject: userInfo, options: JSONSerialization.WritingOptions.prettyPrinted)
+        } catch {
+            print("Cannot encode the data")
+        }
+        
+        request.addValue(HTTPHeaderField.parseAppID, forHTTPHeaderField: ParseParameterValues.apiKey)
+        request.addValue(HTTPHeaderField.parseRestApiKey, forHTTPHeaderField: ParseParameterValues.appID)
+        request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.contentType)
+        request.httpBody = info
+        
+        let task = session.dataTask(with: request as URLRequest) {(data, response, error) in
+            
+            if error != nil {
+                completionHandlerForPUTStudentLocation(nil, NSError(domain:"taskForPUTStudentLocation", code: 1,userInfo:[NSLocalizedDescriptionKey: error!]))
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("The status code is not in order of 2xx")
+                return
+            }
+            
+            print(statusCode)
+            guard let data = data else {
+                print("Cannot find the data")
+                return
+            }
+            
+            let range = Range(uncheckedBounds: (5,data.count))
+            let newData = data.subdata(in: range)
+            completionHandlerForPUTStudentLocation(newData as AnyObject,nil)
+            self.convertData(newData, completionHandlerForConvertData: completionHandlerForPUTStudentLocation)
+        }
+        
+        task.resume()
+        return task
+    }
+    
     func parseURLFromParameters(_ parameters: [String: AnyObject], withPathExtension:String? = nil) -> URL {
         
         var components = URLComponents()
@@ -254,7 +330,7 @@ class ParseClient: NSObject {
         do {
             parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
             if JSONSerialization.isValidJSONObject(parsedData) {
-                completionHandlerForConvertData(parsedData,nil)
+                completionHandlerForConvertData(parsedData, nil)
             }
         } catch {
             let userInfo = [NSLocalizedDescriptionKey: "Cannot parse the \(data) into json Format"]

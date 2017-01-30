@@ -188,6 +188,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     
     @IBAction func tapLogin(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
+            self.showActivityIndicator()
             ParseClient.sharedInstance.PostSession(userName: emailTextField.text!, password: passwordTextField.text!) { (results, error) in
                 if error == nil {
                     performUIUpdatesOnMain {
