@@ -83,6 +83,7 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     
     @IBAction func tapFindButton(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
+            self.showActivityIndicator()
             firstView.isHidden = true
             secondView.isHidden = false
             FindLocationByString()
@@ -107,7 +108,7 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
                 ParseClient.JSONResponseKeys.mediaURL : websiteTextField.text as AnyObject,
                 ParseClient.JSONResponseKeys.latitude : self.coordinates.latitude.description as AnyObject,
                 ParseClient.JSONResponseKeys.longitude : self.coordinates.longitude.description as AnyObject,
-                ParseClient.JSONResponseKeys.uniqueKey : ParseClient.sharedInstance.userID as AnyObject
+                ParseClient.JSONResponseKeys.uniqueKey : ParseClient.sharedInstance.uniqueKey as AnyObject
             ]
             
             if ParseClient.sharedInstance.objectID == nil {
@@ -151,6 +152,8 @@ extension InformationPostingViewController: MapKitProtocol {
             let location = adressTextField.text
             let geoCoder = CLGeocoder()
             geoCoder.geocodeAddressString(location!) {(placeMarks, error) in
+                
+                self.hideActivityIndicator()
                 
                 if error != nil {
                     performUIUpdatesOnMain {

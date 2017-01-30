@@ -235,7 +235,7 @@ class ParseClient: NSObject {
     
     func taskForGETUsersData(completionHandler: @escaping (_ result: AnyObject?, _ error:NSError?) -> Void) {
         
-        let urlString = Constants.getSessionURL+Methods.users+"/\(userID)"
+        let urlString = Constants.getSessionURL + Methods.users+"/\(userID)"
         let url = URL(string: urlString)
         let request = URLRequest(url: url!)
         let task = session.dataTask(with: request) {(data,response,error) in
