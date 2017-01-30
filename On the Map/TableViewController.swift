@@ -109,7 +109,7 @@ extension TableViewController: UdacityProtocol {
                     }
                 } else if error != nil {
                     print(error!)
-                    self.showAlert(title: "Download fails", message: <#T##String?##Swift.String?#>)
+                    self.showAlert(title: "Download fails", message: nil)
                 }
             }
         } else {
