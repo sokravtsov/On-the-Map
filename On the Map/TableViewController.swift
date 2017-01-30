@@ -100,7 +100,10 @@ class TableViewController: UITableViewController {
             ParseClient.sharedInstance.DeleteSession() { (results, error) in
                 if error != nil {
                     ParseClient.sharedInstance.userID = nil
-                    self.dismiss(animated: true, completion: nil)
+                    performUIUpdatesOnMain {
+                        self.dismiss(animated: true, completion: nil)
+                        print ("Session deleled")
+                    }
                 }
             }
         } else {

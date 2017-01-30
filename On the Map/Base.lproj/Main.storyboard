@@ -80,7 +80,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <state key="normal" title="Don't have an account? Sing Up">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.21001788973808289" green="0.56514078378677368" blue="0.7189134955406189" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="openUdacitySite:" destination="OOq-ec-sA4" eventType="touchUpInside" id="zaZ-t3-tm7"/>
@@ -130,6 +130,7 @@
                         <outlet property="emailTextField" destination="Gf7-bk-7b7" id="YDl-Xr-PaX"/>
                         <outlet property="facebookButton" destination="J7w-qq-uz0" id="SWw-cw-qL2"/>
                         <outlet property="loginButton" destination="i8A-Ea-iTY" id="Jt6-tI-6DN"/>
+                        <outlet property="loginLabel" destination="HkR-pP-EXb" id="pxB-zn-ODz"/>
                         <outlet property="passwordTextField" destination="Jbp-s3-hFu" id="xlN-de-zpE"/>
                         <outlet property="sigupButton" destination="312-Bm-1Nj" id="kF8-XD-cBN"/>
                     </connections>
@@ -482,7 +483,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rUe-qm-hj6" id="dfx-PZ-kMq">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="tyw-GH-fvo">

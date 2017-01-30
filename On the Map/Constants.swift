@@ -93,6 +93,7 @@ extension ParseClient {
         static let userNameKey = "username"
         static let passwordKey = "password"
         static let facebookMobile = "facebook_mobile"
+        static let accessToken = "access_token"
     }
     
 }

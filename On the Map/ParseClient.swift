@@ -150,6 +150,7 @@ class ParseClient: NSObject {
     }
     
     func taskForDeleteSession(_ method: String, completionHandlerToDeleteSession: @escaping (_ results: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+        
         let urlString = Constants.getSessionURL + method
         let url = URL(string: urlString)
         let request = NSMutableURLRequest(url: url!)

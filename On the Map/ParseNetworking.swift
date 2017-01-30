@@ -67,7 +67,7 @@ extension ParseClient {
     
     ///Method for posting session to server via Facebook auth
     func PostSessionFacebook(completionHandlerForFacebookSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) {
-        let dictionary = [JSONBodyKeys.facebookMobile: String(describing: FBSDKAccessToken.current())]
+        let dictionary = [JSONBodyKeys.accessToken : String(describing: FBSDKAccessToken.current())]
         
         _ = taskForPOSTSessionFacebook(jsonBody: dictionary) {(results, error) in
             if error != nil {

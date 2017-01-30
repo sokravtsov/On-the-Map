@@ -106,6 +106,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
                     ParseClient.sharedInstance.userID = nil
                     performUIUpdatesOnMain {
                         self.dismiss(animated: true, completion: nil)
+                        print ("Session deleled")
                     }
                 }
             }

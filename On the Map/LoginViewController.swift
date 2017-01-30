@@ -31,6 +31,9 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     ///Facebook login button outlet
     @IBOutlet weak var facebookButton: FBSDKLoginButton!
     
+    ///Login label outlet
+    @IBOutlet weak var loginLabel: UILabel!
+    
     // MARK : Variables
     
     ///Udacity sing up URL
@@ -129,7 +132,8 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
         if Reachability.isConnectedToNetwork() {
             if result != nil {
-                self.facebookButton.isHidden = true
+                hideUI()
+                self.showActivityIndicator()
                 ParseClient.sharedInstance.PostSessionFacebook() { (results, error) in
                     if error == nil {
                         performUIUpdatesOnMain {
@@ -174,10 +178,12 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     
     @IBAction func tapLogin(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
+            hideUI()
             self.showActivityIndicator()
             ParseClient.sharedInstance.PostSession(userName: emailTextField.text!, password: passwordTextField.text!) { (results, error) in
                 if error == nil {
                     performUIUpdatesOnMain {
+                        self.showUI()
                         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
                         self.present(vc, animated: false, completion: nil)
                     }
@@ -188,5 +194,24 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
                 self.showAlert(title: "No internet connection", message: "Check connection and try again")
             }
         }
+    }
+    
+    private func hideUI() {
+        self.facebookButton.isHidden = true
+        emailTextField.isHidden = true
+        passwordTextField.isHidden = true
+        self.loginButton.isHidden = true
+        sigupButton.isHidden = true
+        loginLabel.isHidden = true
+    }
+    
+    private func showUI() {
+        self.facebookButton.isHidden = false
+        emailTextField.isHidden = false
+        passwordTextField.isHidden = false
+        self.loginButton.isHidden = false
+        sigupButton.isHidden = false
+        loginLabel.isHidden = false
+        self.hideActivityIndicator()
     }
 }
