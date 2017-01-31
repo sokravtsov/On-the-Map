@@ -13,6 +13,7 @@ import MapKit
 fileprivate protocol MapKitProtocol {
     
     func FindLocationByString()
+    func submitMyLocation()
 }
 
 ///ViewController for posting Student Location
@@ -43,10 +44,7 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        adressTextField.delegate = self
-        websiteTextField.delegate = self
-        findButton.layer.cornerRadius = CGFloat(ParseClient.Radius.corner)
-        submitButton.layer.cornerRadius = CGFloat(ParseClient.Radius.corner)
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,59 +86,23 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
             secondView.isHidden = false
             FindLocationByString()
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
     }
     
     @IBAction func tapSubmitButton(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
-            
-            ParseClient.sharedInstance.GetPublicUserData() {(results,error) in
-                if error != nil {
-                    print (error!)
-                }
-            }
-            
-            let studentInfo:[String:AnyObject] = [
-                ParseClient.JSONResponseKeys.firstName : ParseClient.sharedInstance.firstName as AnyObject,
-                ParseClient.JSONResponseKeys.lastName : ParseClient.sharedInstance.lastName as AnyObject,
-                ParseClient.JSONResponseKeys.mapString : adressTextField.text as AnyObject,
-                ParseClient.JSONResponseKeys.mediaURL : websiteTextField.text as AnyObject,
-                ParseClient.JSONResponseKeys.latitude : self.coordinates.latitude.description as AnyObject,
-                ParseClient.JSONResponseKeys.longitude : self.coordinates.longitude.description as AnyObject,
-                ParseClient.JSONResponseKeys.uniqueKey : ParseClient.sharedInstance.uniqueKey as AnyObject
-            ]
-            
-            if ParseClient.sharedInstance.objectID == nil {
-                print ("PostStidentLocation....")
-                ParseClient.sharedInstance.PostStudentLocation(json: studentInfo) {(results,error) in
-                    if error != nil {
-                        print(error!)
-                    }
-                    if let results = results as? [String:AnyObject] {
-                        let objectId = results[ParseClient.JSONResponseKeys.objectID] as? String
-                        print(results[ParseClient.JSONResponseKeys.createdAt]!)
-                        print(objectId!)
-                        ParseClient.sharedInstance.objectID = objectId!
-                    }
-                }
-            } else {
-                print ("OverwriteStidentLocation....")
-                ParseClient.sharedInstance.OverwriteStudentLocation(json: studentInfo) {(results, error) in
-                    if error != nil {
-                        print (error!)
-                    }
-                    if let results = results as? [String:AnyObject] {
-                        print(results[ParseClient.JSONResponseKeys.createdAt]!)
-                    }
-                }
-            }
-            performUIUpdatesOnMain {
-                self.dismiss(animated: true, completion: nil)
-            }
+            submitMyLocation()
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
+    }
+    
+    func setupUI() {
+        adressTextField.delegate = self
+        websiteTextField.delegate = self
+        findButton.layer.cornerRadius = CGFloat(ParseClient.Radius.corner)
+        submitButton.layer.cornerRadius = CGFloat(ParseClient.Radius.corner)
     }
 }
 
@@ -174,6 +136,52 @@ extension InformationPostingViewController: MapKitProtocol {
                     
                 }
             }
+        }
+    }
+    
+    func submitMyLocation() {
+        ParseClient.sharedInstance.GetPublicUserData() {(results,error) in
+            if error != nil {
+                print (error!)
+            }
+        }
+        
+        let studentInfo:[String:AnyObject] = [
+            ParseClient.JSONResponseKeys.firstName : ParseClient.sharedInstance.firstName as AnyObject,
+            ParseClient.JSONResponseKeys.lastName : ParseClient.sharedInstance.lastName as AnyObject,
+            ParseClient.JSONResponseKeys.mapString : adressTextField.text as AnyObject,
+            ParseClient.JSONResponseKeys.mediaURL : websiteTextField.text as AnyObject,
+            ParseClient.JSONResponseKeys.latitude : self.coordinates.latitude.description as AnyObject,
+            ParseClient.JSONResponseKeys.longitude : self.coordinates.longitude.description as AnyObject,
+            ParseClient.JSONResponseKeys.uniqueKey : ParseClient.sharedInstance.uniqueKey as AnyObject
+        ]
+        
+        if ParseClient.sharedInstance.objectID == nil {
+            print ("PostStidentLocation....")
+            ParseClient.sharedInstance.PostStudentLocation(json: studentInfo) {(results,error) in
+                if error != nil {
+                    print(error!)
+                }
+                if let results = results as? [String:AnyObject] {
+                    let objectId = results[ParseClient.JSONResponseKeys.objectID] as? String
+                    print(results[ParseClient.JSONResponseKeys.createdAt]!)
+                    print(objectId!)
+                    ParseClient.sharedInstance.objectID = objectId!
+                }
+            }
+        } else {
+            print ("OverwriteStidentLocation....")
+            ParseClient.sharedInstance.OverwriteStudentLocation(json: studentInfo) {(results, error) in
+                if error != nil {
+                    print (error!)
+                }
+                if let results = results as? [String:AnyObject] {
+                    print(results[ParseClient.JSONResponseKeys.createdAt]!)
+                }
+            }
+        }
+        performUIUpdatesOnMain {
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }

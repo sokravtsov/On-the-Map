@@ -75,7 +75,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
             ParseClient.sharedInstance.annotations.removeAll()
             setupPinOnMap()
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
     }
     
@@ -95,7 +95,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
                 self.showAlertWithAction()
             }
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
     }
     
@@ -111,7 +111,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
                 }
             }
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
         
     }
@@ -172,7 +172,7 @@ extension MapViewController: Setup {
                 }
             }
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
     }
 }

@@ -113,16 +113,18 @@ class ParseClient: NSObject {
     
     func taskForGetStudentLocations(withUniqueKey: String?, completionHandlerForGetStudentLocation: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) -> URLSessionDataTask {
         var request:NSMutableURLRequest!
-        let parametersMethod:[String : AnyObject] = [ParseParameterKeys.limit : ParseParameterValues.limit as AnyObject,
-                                                     ParseParameterKeys.order : ParseParameterValues.order as AnyObject]
+//        let parametersMethod:[String : AnyObject] = [ParseParameterKeys.limit : ParseParameterValues.limit as AnyObject,
+//                                                     ParseParameterKeys.order : ParseParameterValues.order as AnyObject]
         if withUniqueKey != nil {
             request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(withUniqueKey)%22%7D")!)
         } else {
-            request = NSMutableURLRequest(url: parseURLFromParameters(parametersMethod, withPathExtension: nil))
+//            request = NSMutableURLRequest(url: parseURLFromParameters(parametersMethod, withPathExtension: nil))
+            request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=100&order=-updatedAt")!)
+            
             
         }
-        request.addValue(HTTPHeaderField.parseAppID, forHTTPHeaderField: ParseParameterValues.apiKey)
-        request.addValue(HTTPHeaderField.parseRestApiKey, forHTTPHeaderField: ParseParameterValues.appID)
+        request.addValue(HTTPHeaderField.parseAppID, forHTTPHeaderField: ParseParameterValues.appID)
+        request.addValue(HTTPHeaderField.parseRestApiKey, forHTTPHeaderField: ParseParameterValues.apiKey)
         
         let task = session.dataTask(with: request as URLRequest) {(data, response, error) in
             
@@ -236,10 +238,10 @@ class ParseClient: NSObject {
     
     func taskForGETUsersData(completionHandler: @escaping (_ result: AnyObject?, _ error:NSError?) -> Void) {
         
-        let urlString = Constants.getSessionURL + Methods.users+"/\(userID)"
+        let urlString = Constants.getSessionURL + Methods.users+"/\(userID!)"
         let url = URL(string: urlString)
-        let request = URLRequest(url: url!)
-        let task = session.dataTask(with: request) {(data,response,error) in
+        let request = NSMutableURLRequest(url: url!)
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
             
             if error != nil {
                 print("There was an error with the request")

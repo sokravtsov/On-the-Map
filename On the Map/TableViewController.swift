@@ -74,7 +74,7 @@ class TableViewController: UITableViewController {
             ParseClient.sharedInstance.studentLocations.removeAll()
             getStudentLocations()
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
     }
     
@@ -91,7 +91,7 @@ class TableViewController: UITableViewController {
                 self.showAlertWithActionFromTable()
             }
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
     }
     
@@ -107,7 +107,7 @@ class TableViewController: UITableViewController {
                 }
             }
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
             
         }
     }
@@ -130,7 +130,7 @@ extension TableViewController: UdacityProtocol {
                 }
             }
         } else {
-            self.showAlert(title: "No internet connection", message: "Check connection and try again")
+            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
     }
 }

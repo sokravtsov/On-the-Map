@@ -44,9 +44,9 @@ extension ParseClient {
             } else {
                 if let sessionResults = results as? [String:AnyObject] {
                     if let accounts = sessionResults[JSONResponseKeys.account] as? [String:AnyObject] {
-                        if let uniqueKey = accounts[JSONResponseKeys.key] as? String {
-                            ParseClient.sharedInstance.userID = uniqueKey
-                            print ("Unique key = \(uniqueKey)")
+                        if let userID = accounts[JSONResponseKeys.key] as? String {
+                            ParseClient.sharedInstance.userID = userID
+                            print ("UserID = \(userID)")
                         }
                     }
                     

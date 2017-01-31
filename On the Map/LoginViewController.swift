@@ -147,7 +147,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
             }
         } else {
             performUIUpdatesOnMain {
-                self.showAlert(title: "No internet connection", message: "Check connection and try again")
+                self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
             }
         }
     }
@@ -191,7 +191,7 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
             }
         } else {
             performUIUpdatesOnMain {
-                self.showAlert(title: "No internet connection", message: "Check connection and try again")
+                self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
             }
         }
     }

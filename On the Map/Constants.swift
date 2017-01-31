@@ -96,4 +96,9 @@ extension ParseClient {
         static let accessToken = "access_token"
     }
     
+    struct Str {
+        static let noConnection = "No internet connection"
+        static let checkConnection = "Check connection and try again"
+    }
+    
 }
