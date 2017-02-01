@@ -60,28 +60,27 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
         textField.text! = ""
     }
     
     //MARK: Actions
     
     @IBAction func tapCancelButton(_ sender: Any) {
-        self.adressTextField.text = ""
-        self.websiteTextField.text = ""
+        adressTextField.text = ""
+        websiteTextField.text = ""
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func tapSecondCancelButton(_ sender: Any) {
-        self.adressTextField.text = ""
-        self.websiteTextField.text = ""
+        adressTextField.text = ""
+        websiteTextField.text = ""
         secondView.isHidden = true
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func tapFindButton(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
-            self.showActivityIndicator()
+            showActivityIndicator()
             firstView.isHidden = true
             secondView.isHidden = false
             FindLocationByString()

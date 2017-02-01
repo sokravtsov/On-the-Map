@@ -176,8 +176,6 @@ extension MapViewController: Setup {
     }
 }
 
-
-
 // MARK: - MapViewProtocol
 
 extension MapViewController: MapViewProtocol {

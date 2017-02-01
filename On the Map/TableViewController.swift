@@ -16,7 +16,7 @@ fileprivate protocol UdacityProtocol {
 class TableViewController: UITableViewController {
     
     //MARK: - Outlets
-    @IBOutlet var UdacityTableView: UITableView!
+    @IBOutlet var udacityTableView: UITableView!
     @IBOutlet weak var logoutButton: UIBarButtonItem!
     @IBOutlet weak var pinButton: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
@@ -25,7 +25,7 @@ class TableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.UdacityTableView.reloadData()
+        udacityTableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -120,7 +120,7 @@ extension TableViewController: UdacityProtocol {
                     StudentLocations.sharedInstance.studentLocations = results as! [StudentInformation]
                     print (results)
                     performUIUpdatesOnMain {
-                        self.UdacityTableView.reloadData()
+                        self.udacityTableView.reloadData()
                     }
                 } else if error != nil {
                     print(error!)
