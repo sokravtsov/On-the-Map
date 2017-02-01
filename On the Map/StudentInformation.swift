@@ -59,11 +59,9 @@ struct StudentInformation {
     
     static func locationsFromResults(_ results: [[String:AnyObject]]) -> [StudentInformation] {
         
-//        var locations = [StudentLocation]()
-        
         for result in results {
-            ParseClient.sharedInstance.studentLocations.append(StudentInformation(dictionary: result))
+            StudentLocations.sharedInstance.studentLocations.append(StudentInformation(dictionary: result))
         }
-        return ParseClient.sharedInstance.studentLocations
+        return StudentLocations.sharedInstance.studentLocations
     }
 }

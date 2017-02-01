@@ -12,6 +12,7 @@
 		826AC1B61E32A7D300BF8A0F /* ParseNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AC1B51E32A7D300BF8A0F /* ParseNetworking.swift */; };
 		826AC1B81E32AAC500BF8A0F /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AC1B71E32AAC500BF8A0F /* ParseClient.swift */; };
 		8276D0211DDD0C6100E14BDA /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8276D0201DDD0C6100E14BDA /* StudentInformation.swift */; };
+		82824D891E4290280098D9D0 /* StudentLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82824D881E4290280098D9D0 /* StudentLocations.swift */; };
 		82A1C2CC1DD906E300D35312 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A1C2CB1DD906E300D35312 /* InformationPostingViewController.swift */; };
 		82B5DFC41E3E87C000DE39C5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5DFC31E3E87C000DE39C5 /* Reachability.swift */; };
 		82B5DFC61E3E892500DE39C5 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5DFC51E3E892500DE39C5 /* Alerts.swift */; };
@@ -38,6 +39,7 @@
 		826AC1B51E32A7D300BF8A0F /* ParseNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseNetworking.swift; sourceTree = "<group>"; };
 		826AC1B71E32AAC500BF8A0F /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		8276D0201DDD0C6100E14BDA /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
+		82824D881E4290280098D9D0 /* StudentLocations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocations.swift; sourceTree = "<group>"; };
 		82A1C2CB1DD906E300D35312 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
 		82B5DFC31E3E87C000DE39C5 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		82B5DFC51E3E892500DE39C5 /* Alerts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				826AC1B71E32AAC500BF8A0F /* ParseClient.swift */,
 				826AC1B51E32A7D300BF8A0F /* ParseNetworking.swift */,
 				8276D0201DDD0C6100E14BDA /* StudentInformation.swift */,
+				82824D881E4290280098D9D0 /* StudentLocations.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 			files = (
 				82B5DFCD1E3F937B00DE39C5 /* UIScreen+Size.swift in Sources */,
 				82B5DFCB1E3F927100DE39C5 /* UIViewController+ActivityIndicator.swift in Sources */,
+				82824D891E4290280098D9D0 /* StudentLocations.swift in Sources */,
 				82B5DFD01E3F96F400DE39C5 /* Animations.swift in Sources */,
 				8276D0211DDD0C6100E14BDA /* StudentInformation.swift in Sources */,
 				826AC1B61E32A7D300BF8A0F /* ParseNetworking.swift in Sources */,

@@ -22,10 +22,7 @@ class TableViewController: UITableViewController {
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
     //MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.UdacityTableView.reloadData()
@@ -38,12 +35,12 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ParseClient.sharedInstance.studentLocations.count
+        return StudentLocations.sharedInstance.studentLocations.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! TableViewCell
-        let studentLocation = ParseClient.sharedInstance.studentLocations[(indexPath as NSIndexPath).row] as StudentInformation
+        let studentLocation = StudentLocations.sharedInstance.studentLocations[(indexPath as NSIndexPath).row] as StudentInformation
         if studentLocation.firstName == "" && studentLocation.lastName == "" {
             cell.nameLabel.text = "Anonymous"
         } else {
@@ -53,7 +50,7 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let studentLocation = ParseClient.sharedInstance.studentLocations[(indexPath as NSIndexPath).row] as StudentInformation
+        let studentLocation = StudentLocations.sharedInstance.studentLocations[(indexPath as NSIndexPath).row] as StudentInformation
         let urlString = studentLocation.mediaURL!
         let app = UIApplication.shared
         if urlString != "" {
@@ -71,7 +68,7 @@ class TableViewController: UITableViewController {
     
     @IBAction func refreshTableView(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
-            ParseClient.sharedInstance.studentLocations.removeAll()
+            StudentLocations.sharedInstance.studentLocations.removeAll()
             getStudentLocations()
         } else {
             self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
@@ -120,14 +117,14 @@ extension TableViewController: UdacityProtocol {
         if Reachability.isConnectedToNetwork() {
             ParseClient.sharedInstance.getStudentLocations(withUniqueKey: nil) { (results, error) in
                 if let results = results {
-                    ParseClient.sharedInstance.studentLocations = results as! [StudentInformation]
+                    StudentLocations.sharedInstance.studentLocations = results as! [StudentInformation]
                     print (results)
                     performUIUpdatesOnMain {
                         self.UdacityTableView.reloadData()
                     }
                 } else if error != nil {
                     print(error!)
-                    self.showAlert(title: "", message: "Failed to download the location of students")
+                    self.showAlert(title: "Server is Unavailable", message: "Failed to download the location of students")
                 }
             }
         } else {

@@ -71,7 +71,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     @IBAction func refreshMap(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
             self.mapView.removeAnnotations(ParseClient.sharedInstance.annotations)
-            ParseClient.sharedInstance.studentLocations.removeAll()
+            StudentLocations.sharedInstance.studentLocations.removeAll()
             ParseClient.sharedInstance.annotations.removeAll()
             setupPinOnMap()
         } else {
@@ -124,14 +124,11 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
 extension MapViewController: Setup {
     
     func setupMapSettings() {
-        
         mapView.delegate = self
-        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        //self.mapView.showsUserLocation = true
     }
     
     func setupPinOnMap() {
@@ -139,10 +136,11 @@ extension MapViewController: Setup {
             ParseClient.sharedInstance.getStudentLocations(withUniqueKey: nil) { (results, error) in
                 if let results = results {
                     
-                    ParseClient.sharedInstance.studentLocations = results as! [StudentInformation]
+                    StudentLocations.sharedInstance.studentLocations = results as! [StudentInformation]
+                    
                     print (results)
                     
-                    for eachLocation in ParseClient.sharedInstance.studentLocations {
+                    for eachLocation in StudentLocations.sharedInstance.studentLocations {
                         
                         let lat = CLLocationDegrees(eachLocation.latitude!)
                         let long = CLLocationDegrees(eachLocation.longitude!)
@@ -169,7 +167,7 @@ extension MapViewController: Setup {
                     
                 } else if error != nil {
                     print(error!)
-                    self.showAlert(title: "", message: "Failed to download the location of students")
+                    self.showAlert(title: "Server is Unavailable", message: "Failed to download the location of students")
                 }
             }
         } else {

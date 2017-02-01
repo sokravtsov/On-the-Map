@@ -21,7 +21,7 @@ class ParseClient: NSObject {
     var uniqueKey: String? = nil
     var firstName: String? = nil
     var lastName: String? = nil
-    var studentLocations = [StudentInformation]()
+//    var studentLocations = [StudentInformation]()
     var annotations = [MKPointAnnotation]()
     
     
