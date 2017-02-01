@@ -149,7 +149,6 @@ extension MapViewController: Setup {
                 for student in StudentLocations.sharedInstance.studentLocations {
 
                     guard student.latitude != nil && student.longitude != nil else {
-                        print("lat or lon are nil")
                         continue
                     }
                     
@@ -159,7 +158,6 @@ extension MapViewController: Setup {
                     let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
                     
                     guard student.firstName != nil && student.lastName != nil && student.mediaURL != nil else {
-                        print("firstName, lastName, or mediaURL are nil")
                         continue
                     }
 
