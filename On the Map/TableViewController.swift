@@ -77,11 +77,11 @@ class TableViewController: UITableViewController {
     
     @IBAction func addPin(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
-            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results,error) in
-                if error != nil {
-                    print (error!)
-                }
-            }
+//            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results,error) in
+//                if error != nil {
+//                    print (error!)
+//                }
+//            }
             if ParseClient.sharedInstance.objectID == nil {
                 self.performSegue(withIdentifier: "addPinFromMap", sender: self)
             } else {
@@ -115,18 +115,18 @@ class TableViewController: UITableViewController {
 extension TableViewController: UdacityProtocol {
     func getStudentLocations() {
         if Reachability.isConnectedToNetwork() {
-            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: nil) { (results, error) in
-                if let results = results {
-                    StudentLocations.sharedInstance.studentLocations = results as! [StudentInformation]
-                    print (results)
-                    performUIUpdatesOnMain {
-                        self.udacityTableView.reloadData()
-                    }
-                } else if error != nil {
-                    print(error!)
-                    self.showAlert(title: "Server is Unavailable", message: "Failed to download the location of students")
-                }
-            }
+//            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: nil) { (results, error) in
+//                if let results = results {
+//                    StudentLocations.sharedInstance.studentLocations = results as! [StudentInformation]
+//                    print (results)
+//                    performUIUpdatesOnMain {
+//                        self.udacityTableView.reloadData()
+//                    }
+//                } else if error != nil {
+//                    print(error!)
+//                    self.showAlert(title: "Server is Unavailable", message: "Failed to download the location of students")
+//                }
+//            }
         } else {
             self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }

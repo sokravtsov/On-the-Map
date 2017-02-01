@@ -10,24 +10,46 @@ import Foundation
 
 extension ParseClient {
     
-    ///Method for get Student Location with User ID, if userID = nil -> for 100 Student Locations
-    func getStudentLocations(withUniqueKey: String?, completionHandlerForGETStudentLocations: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) {
-
-        _ = taskForGetStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results, error) in
-
-            if error != nil {
-                completionHandlerForGETStudentLocations(nil, error)
+    func getStudentLocations(_ completionHandlerForStudentLocations: @escaping (_ result: [StudentInformation]?, _ error: Error?) -> Void) {
+        
+        let parameters = [ParseParameterKeys.limit: ParseParameterValues.limit,
+                          ParseParameterKeys.order:ParseParameterValues.order]
+        
+        let methods: String = Methods.studentLocations
+        
+        let _ = taskForGETMethod(methods, parameters: parameters as [String : AnyObject]) { (results, error) in
+            
+            if let error = error {
+                
+                completionHandlerForStudentLocations(nil, error)
             } else {
-                if let results = results?[JSONResponseKeys.results] as? [String:AnyObject] {
-                    if let objectID = results[JSONResponseKeys.objectID] as? String {
-                        ParseClient.sharedInstance.objectID = objectID
-                        print ("Object ID = \(objectID)")
-                    }
+                if let results = results?[JSONResponseKeys.results] as? [[String:AnyObject]] {
+                    let students = StudentInformation.locationsFromResults(results)
                     print(results)
-                    let studentLocations = StudentInformation.locationsFromResults([results])
-                    completionHandlerForGETStudentLocations(studentLocations as AnyObject?, nil)
+                    for result in results {
+                        if let userID = result[JSONResponseKeys.uniqueKey] as? String , userID == self.userID {
+                            guard let firstName = result[JSONResponseKeys.firstName] as? String else {
+                                print("Cannot find key 'firstName' in \(results)")
+                                return
+                            }
+                            guard let lastName = result[JSONResponseKeys.lastName] as? String else {
+                                print("Cannot find key 'lastName' in \(results)")
+                                return
+                            }
+                            guard let objectID = result[JSONResponseKeys.objectID] as? String else {
+                                print("Cannot find key 'objectID' in \(results)")
+                                return
+                            }
+                            self.firstName = firstName
+                            self.lastName = lastName
+                            self.objectID = objectID
+                        }
+                    }
+                    
+                    completionHandlerForStudentLocations(students, nil)
                 } else {
-                    completionHandlerForGETStudentLocations(nil, NSError(domain: "getStudentLocations parsing", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not parse the data"]))
+                    
+                    completionHandlerForStudentLocations(nil, NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
                 }
             }
         }
@@ -46,14 +68,14 @@ extension ParseClient {
                     if let accounts = sessionResults[JSONResponseKeys.account] as? [String:AnyObject] {
                         if let userID = accounts[JSONResponseKeys.key] as? String {
                             ParseClient.sharedInstance.userID = userID
-//                            print ("UserID = \(userID)")
+                            print ("UserID = \(userID)")
                         }
                     }
                     
                     if let session = sessionResults[JSONResponseKeys.session] as? [String:AnyObject] {
                         if let sessionID = session[JSONResponseKeys.sessionId] as? String {
                             ParseClient.sharedInstance.sessionID = sessionID
-//                            print ("Session ID = \(sessionID)")
+                            print ("Session ID = \(sessionID)")
                         }
                     }
                     

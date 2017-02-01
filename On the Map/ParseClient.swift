@@ -21,7 +21,6 @@ class ParseClient: NSObject {
     var uniqueKey: String? = nil
     var firstName: String? = nil
     var lastName: String? = nil
-//    var studentLocations = [StudentInformation]()
     var annotations = [MKPointAnnotation]()
     
     
@@ -45,7 +44,7 @@ class ParseClient: NSObject {
         request.httpMethod = "POST"
         request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.acceptField)
         request.addValue(Constants.applicationJSON, forHTTPHeaderField: HTTPHeaderField.contentType)
-        request.httpBody = info /*jsonBody.data(using: String.Encoding.utf8)*/
+        request.httpBody = info
         
         let task = session.dataTask(with: request as URLRequest) {(data,response,error) in
             
@@ -119,18 +118,14 @@ class ParseClient: NSObject {
     
     func taskForGetStudentLocations(withUniqueKey: String?, completionHandlerForGetStudentLocation: @escaping(_ results: AnyObject?,_ error: NSError?) -> Void) -> URLSessionDataTask {
         var request:NSMutableURLRequest!
-//        let parametersMethod:[String : AnyObject] = [ParseParameterKeys.limit : ParseParameterValues.limit as AnyObject,
-//                                                     ParseParameterKeys.order : ParseParameterValues.order as AnyObject]
         if withUniqueKey != nil {
             request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(withUniqueKey)%22%7D")!)
         } else {
-//            request = NSMutableURLRequest(url: parseURLFromParameters(parametersMethod, withPathExtension: nil))
             request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=100&order=-updatedAt")!)
-            
-            
         }
-        request.addValue(HTTPHeaderField.parseAppID, forHTTPHeaderField: ParseParameterValues.appID)
-        request.addValue(HTTPHeaderField.parseRestApiKey, forHTTPHeaderField: ParseParameterValues.apiKey)
+        
+        request.addValue(ParseParameterValues.appID, forHTTPHeaderField: HTTPHeaderField.parseAppID)
+        request.addValue(ParseParameterValues.apiKey, forHTTPHeaderField: HTTPHeaderField.parseRestApiKey)
         
         let task = session.dataTask(with: request as URLRequest) {(data, response, error) in
             
@@ -143,6 +138,7 @@ class ParseClient: NSObject {
             }
             
             print(statusCode)
+            
             guard let data = data else {
                 print("Cannot find the data")
                 return
@@ -318,6 +314,42 @@ class ParseClient: NSObject {
         return task
     }
     
+    func taskForGETMethod(_ method: String, parameters: [String:AnyObject], completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+        
+        var parameters = parameters
+        
+        let request = NSMutableURLRequest(url: parseURLFromParameters(parameters, withPathExtension: method))
+        request.addValue(ParseParameterValues.appID, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(ParseParameterValues.apiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            func sendError(_ error: String) {
+                print(error)
+                let userInfo = [NSLocalizedDescriptionKey : error]
+                completionHandlerForGET(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+            }
+            
+            guard (error == nil) else {
+                sendError("There was an error with your request: \(error)")
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode , statusCode >= 200 && statusCode <= 299 else {
+                sendError("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            guard let data = data else {
+                sendError("No data was returned by the request!")
+                return
+            }
+            self.convertData(data, completionHandlerForConvertData: completionHandlerForGET)
+        }
+        task.resume()
+        return task
+    }
+    
     func parseURLFromParameters(_ parameters: [String: AnyObject], withPathExtension:String? = nil) -> URL {
         
         var components = URLComponents()
@@ -348,5 +380,7 @@ class ParseClient: NSObject {
         }
         completionHandlerForConvertData(parsedData,nil)
     }
+    
+    
     
 }

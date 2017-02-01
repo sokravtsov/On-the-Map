@@ -83,11 +83,11 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
         
         if Reachability.isConnectedToNetwork() {
             
-            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results,error) in
-                if error != nil {
-                    print (error!)
-                }
-            }
+//            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results,error) in
+//                if error != nil {
+//                    print (error!)
+//                }
+//            }
             
             if ParseClient.sharedInstance.objectID == nil {
                 self.performSegue(withIdentifier: "addPinFromMap", sender: self)
@@ -132,47 +132,57 @@ extension MapViewController: Setup {
     }
     
     func setupPinOnMap() {
+        
         if Reachability.isConnectedToNetwork() {
-            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: nil) { (results, error) in
-                if let results = results {
-                    
-                    StudentLocations.sharedInstance.studentLocations = results as! [StudentInformation]
-                    
-                    print (results)
-                    
-                    for eachLocation in StudentLocations.sharedInstance.studentLocations {
-                        
-                        let lat = CLLocationDegrees(eachLocation.latitude!)
-                        let long = CLLocationDegrees(eachLocation.longitude!)
-                        
-                        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-                        
-                        let first = eachLocation.firstName!
-                        let last = eachLocation.lastName!
-                        let mediaURL = eachLocation.mediaURL!
-                        
-                        let annotation = MKPointAnnotation()
-                        
-                        annotation.coordinate = coordinate
-                        annotation.title = "\(first) \(last)"
-                        annotation.subtitle = mediaURL
-                        
-                        ParseClient.sharedInstance.annotations.append(annotation)
+            ParseClient.sharedInstance.getStudentLocations { (result, error) in
+                performUIUpdatesOnMain {
+                    if let studentLocations = result {
+                        StudentLocations.sharedInstance.studentLocations = studentLocations
+                    } else {
+                        print(error!)
+                        self.showAlert(title: "Server is Unavailable", message: "Failed to download the location of students")
                     }
-                    performUIUpdatesOnMain {
-                        self.mapView.addAnnotations(ParseClient.sharedInstance.annotations)
-                    }
-                    
-                    self.needToUpdateMap = false
-                    
-                } else if error != nil {
-                    print(error!)
-                    self.showAlert(title: "Server is Unavailable", message: "Failed to download the location of students")
                 }
+                
+                var annotations = [MKPointAnnotation]()
+                
+                for student in StudentLocations.sharedInstance.studentLocations {
+
+                    guard student.latitude != nil && student.longitude != nil else {
+                        print("lat or lon are nil")
+                        continue
+                    }
+                    
+                    let lat = CLLocationDegrees(student.latitude!)
+                    let long = CLLocationDegrees(student.longitude!)
+                    
+                    let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                    
+                    guard student.firstName != nil && student.lastName != nil && student.mediaURL != nil else {
+                        print("firstName, lastName, or mediaURL are nil")
+                        continue
+                    }
+
+                    let first = student.firstName!
+                    let last = student.lastName!
+                    let mediaURL = student.mediaURL!
+                    
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = coordinate
+                    annotation.title = "\(first) \(last)"
+                    annotation.subtitle = mediaURL
+                    
+                    annotations.append(annotation)
+                }
+                
+                self.mapView.addAnnotations(annotations)
             }
         } else {
-            self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
+            
+        self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
+        
+        needToUpdateMap = false
     }
 }
 

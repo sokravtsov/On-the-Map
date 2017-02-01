@@ -27,8 +27,8 @@ extension ParseClient {
     struct ParseParameterValues {
         static let apiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
         static let appID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-        static let limit = 100
-        static let skip = 400
+        static let limit = "100"
+        static let skip = "400"
         static let order = "-updatedAt"
     }
     
@@ -66,7 +66,10 @@ extension ParseClient {
     struct JSONResponseKeys {
         
         static let objectID = "objectId"
+        
+        ///udacity user ID
         static let uniqueKey = "uniqueKey"
+        
         static let firstName = "firstName"
         static let lastName = "lastName"
         static let mapString = "mapString"
