@@ -180,12 +180,18 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
         if Reachability.isConnectedToNetwork() {
             hideUI()
             self.showActivityIndicator()
-            ParseClient.sharedInstance.PostSession(userName: emailTextField.text!, password: passwordTextField.text!) { (results, error) in
-                if error == nil {
+            ParseClient.sharedInstance.PostSession(userName: emailTextField.text!, password: passwordTextField.text!) { (success, results, error) in
+                if success {
                     performUIUpdatesOnMain {
                         self.showUI()
                         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavViewController") as! UITabBarController
                         self.present(vc, animated: false, completion: nil)
+                    }
+                } else {
+                    performUIUpdatesOnMain {
+                        self.hideActivityIndicator()
+                        self.showUI()
+                        self.showAlert(title: "", message: "Wrong Login or Password. Try Again")
                     }
                 }
             }
@@ -198,20 +204,22 @@ class LoginViewController : UIViewController, UITextFieldDelegate, FBSDKLoginBut
     
     private func hideUI() {
         self.facebookButton.isHidden = true
-        emailTextField.isHidden = true
-        passwordTextField.isHidden = true
+        self.emailTextField.isHidden = true
+        self.passwordTextField.isHidden = true
         self.loginButton.isHidden = true
-        sigupButton.isHidden = true
-        loginLabel.isHidden = true
+        self.sigupButton.isHidden = true
+        self.loginLabel.isHidden = true
     }
     
     private func showUI() {
         self.facebookButton.isHidden = false
-        emailTextField.isHidden = false
-        passwordTextField.isHidden = false
+        self.emailTextField.isHidden = false
+        self.passwordTextField.isHidden = false
+        self.emailTextField.text = ""
+        self.passwordTextField.text = ""
         self.loginButton.isHidden = false
-        sigupButton.isHidden = false
-        loginLabel.isHidden = false
+        self.sigupButton.isHidden = false
+        self.loginLabel.isHidden = false
         self.hideActivityIndicator()
     }
 }

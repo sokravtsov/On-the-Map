@@ -101,8 +101,9 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     
     @IBAction func logOut(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
+            self.showActivityIndicator()
             ParseClient.sharedInstance.DeleteSession() { (results, error) in
-                if error != nil {
+                if error == nil {
                     ParseClient.sharedInstance.userID = nil
                     performUIUpdatesOnMain {
                         self.dismiss(animated: true, completion: nil)
@@ -168,7 +169,7 @@ extension MapViewController: Setup {
                     
                 } else if error != nil {
                     print(error!)
-                    self.showAlert(title: "Download fails", message: nil)
+                    self.showAlert(title: "", message: "Failed to download the location of students")
                 }
             }
         } else {

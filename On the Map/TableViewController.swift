@@ -98,7 +98,8 @@ class TableViewController: UITableViewController {
     @IBAction func logOut(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
             ParseClient.sharedInstance.DeleteSession() { (results, error) in
-                if error != nil {
+                if error == nil {
+                    self.showActivityIndicator()
                     ParseClient.sharedInstance.userID = nil
                     performUIUpdatesOnMain {
                         self.dismiss(animated: true, completion: nil)
@@ -126,7 +127,7 @@ extension TableViewController: UdacityProtocol {
                     }
                 } else if error != nil {
                     print(error!)
-                    self.showAlert(title: "Download fails", message: nil)
+                    self.showAlert(title: "", message: "Failed to download the location of students")
                 }
             }
         } else {

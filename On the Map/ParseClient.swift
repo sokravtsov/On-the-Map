@@ -51,7 +51,13 @@ class ParseClient: NSObject {
             
             if error != nil{
                 let userInfo = [NSLocalizedDescriptionKey: error]
-                completionHandlerForSessionID(nil,NSError(domain:"taskToPOSTSession", code: 1, userInfo:userInfo))
+                completionHandlerForSessionID(nil, NSError(domain:"taskToPOSTSession", code: 1, userInfo:userInfo))
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("Your request returned a status code other than 2xx!")
+                completionHandlerForSessionID(nil, NSError(domain:"taskToPOSTSession", code: 1, userInfo:userInfo))
+                return
             }
             
             guard let data = data else {

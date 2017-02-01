@@ -34,32 +34,32 @@ extension ParseClient {
     }
 
     ///Method for posting session to server
-    func PostSession(userName: String, password: String, completionHandlerForSessionID:@escaping(_ result:AnyObject?,_ error:NSError?)-> Void) {
+    func PostSession(userName: String, password: String, completionHandlerForSessionID:@escaping(_ success: Bool, _ result:AnyObject?,_ error:NSError?)-> Void) {
         let dictionary = [JSONBodyKeys.userNameKey: userName,
                           JSONBodyKeys.passwordKey: password]
         
         _ = taskForPOSTSession(jsonBody: dictionary) {(results, error) in
             if error != nil {
-                completionHandlerForSessionID(nil, error)
+                completionHandlerForSessionID(false, nil, error)
             } else {
                 if let sessionResults = results as? [String:AnyObject] {
                     if let accounts = sessionResults[JSONResponseKeys.account] as? [String:AnyObject] {
                         if let userID = accounts[JSONResponseKeys.key] as? String {
                             ParseClient.sharedInstance.userID = userID
-                            print ("UserID = \(userID)")
+//                            print ("UserID = \(userID)")
                         }
                     }
                     
                     if let session = sessionResults[JSONResponseKeys.session] as? [String:AnyObject] {
                         if let sessionID = session[JSONResponseKeys.sessionId] as? String {
                             ParseClient.sharedInstance.sessionID = sessionID
-                            print ("Session ID = \(sessionID)")
+//                            print ("Session ID = \(sessionID)")
                         }
                     }
                     
-                    completionHandlerForSessionID(sessionResults as AnyObject,nil)
+                    completionHandlerForSessionID(true, sessionResults as AnyObject,nil)
                 } else {
-                    completionHandlerForSessionID(nil,NSError(domain: "getSessionID", code:1, userInfo: [NSLocalizedDescriptionKey: "Could not parse the data"]))
+                    completionHandlerForSessionID(false, nil, NSError(domain: "getSessionID", code:1, userInfo: [NSLocalizedDescriptionKey: "Could not parse the data"]))
                 }
             }
         }
