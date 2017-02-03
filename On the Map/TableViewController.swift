@@ -113,6 +113,7 @@ class TableViewController: UITableViewController {
 
 //MARK: - UdacityProtocol
 extension TableViewController: UdacityProtocol {
+    
     func getStudentLocations() {
         if Reachability.isConnectedToNetwork() {
 //            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: nil) { (results, error) in

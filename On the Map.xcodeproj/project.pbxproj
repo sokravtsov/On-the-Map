@@ -20,10 +20,10 @@
 		82B5DFCB1E3F927100DE39C5 /* UIViewController+ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5DFCA1E3F927100DE39C5 /* UIViewController+ActivityIndicator.swift */; };
 		82B5DFCD1E3F937B00DE39C5 /* UIScreen+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5DFCC1E3F937B00DE39C5 /* UIScreen+Size.swift */; };
 		82B5DFD01E3F96F400DE39C5 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B5DFCF1E3F96F400DE39C5 /* Animations.swift */; };
+		82DB742A1E44B7FE000AA30D /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DB74271E44B7FE000AA30D /* Bolts.framework */; };
+		82DB742B1E44B7FE000AA30D /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DB74281E44B7FE000AA30D /* FBSDKCoreKit.framework */; };
+		82DB742C1E44B7FE000AA30D /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DB74291E44B7FE000AA30D /* FBSDKLoginKit.framework */; };
 		82FA5B3C1E1ACEBA00C50759 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FA5B3B1E1ACEBA00C50759 /* Constants.swift */; };
-		82FA5B471E1CEAA200C50759 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B431E1CEAA200C50759 /* FBSDKCoreKit.framework */; };
-		82FA5B4D1E1CF5F300C50759 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B4B1E1CF5F300C50759 /* Bolts.framework */; };
-		82FA5B4E1E1CF5F300C50759 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FA5B4C1E1CF5F300C50759 /* FBSDKLoginKit.framework */; };
 		A134525C1DC8A52C00111DB2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525B1DC8A52C00111DB2 /* MapViewController.swift */; };
 		A134525E1DC8A57E00111DB2 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525D1DC8A57E00111DB2 /* TableViewController.swift */; };
 		A13452601DC8A60B00111DB2 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A134525F1DC8A60B00111DB2 /* TableViewCell.swift */; };
@@ -32,6 +32,19 @@
 		A18557EF1DC7899D004A8C02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A18557EE1DC7899D004A8C02 /* Assets.xcassets */; };
 		A18557F21DC7899D004A8C02 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A18557F01DC7899D004A8C02 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8200F3FA1E432D1600CD8C54 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		82228D6F1DC7E26D00F64F54 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -47,11 +60,11 @@
 		82B5DFCA1E3F927100DE39C5 /* UIViewController+ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+ActivityIndicator.swift"; sourceTree = "<group>"; };
 		82B5DFCC1E3F937B00DE39C5 /* UIScreen+Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Size.swift"; sourceTree = "<group>"; };
 		82B5DFCF1E3F96F400DE39C5 /* Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
+		82DB74271E44B7FE000AA30D /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "On the Map/Frameworks/Bolts.framework"; sourceTree = "<group>"; };
+		82DB74281E44B7FE000AA30D /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "On the Map/Frameworks/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
+		82DB74291E44B7FE000AA30D /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "On the Map/Frameworks/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
 		82FA5B3B1E1ACEBA00C50759 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		82FA5B431E1CEAA200C50759 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		82FA5B4A1E1CEEEC00C50759 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
-		82FA5B4B1E1CF5F300C50759 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
-		82FA5B4C1E1CF5F300C50759 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		A134525B1DC8A52C00111DB2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		A134525D1DC8A57E00111DB2 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A134525F1DC8A60B00111DB2 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -68,9 +81,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82FA5B4D1E1CF5F300C50759 /* Bolts.framework in Frameworks */,
-				82FA5B4E1E1CF5F300C50759 /* FBSDKLoginKit.framework in Frameworks */,
-				82FA5B471E1CEAA200C50759 /* FBSDKCoreKit.framework in Frameworks */,
+				82DB742A1E44B7FE000AA30D /* Bolts.framework in Frameworks */,
+				82DB742B1E44B7FE000AA30D /* FBSDKCoreKit.framework in Frameworks */,
+				82DB742C1E44B7FE000AA30D /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,9 +153,9 @@
 		82FA5B3D1E1CE9E800C50759 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				82FA5B4B1E1CF5F300C50759 /* Bolts.framework */,
-				82FA5B4C1E1CF5F300C50759 /* FBSDKLoginKit.framework */,
-				82FA5B431E1CEAA200C50759 /* FBSDKCoreKit.framework */,
+				82DB74271E44B7FE000AA30D /* Bolts.framework */,
+				82DB74281E44B7FE000AA30D /* FBSDKCoreKit.framework */,
+				82DB74291E44B7FE000AA30D /* FBSDKLoginKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -192,6 +205,7 @@
 				A18557E01DC7899D004A8C02 /* Sources */,
 				A18557E11DC7899D004A8C02 /* Frameworks */,
 				A18557E21DC7899D004A8C02 /* Resources */,
+				8200F3FA1E432D1600CD8C54 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -401,7 +415,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "~/Documents/FacebookSDK";
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(PROJECT_DIR)/$(PROJECT_NAME)/Frameworks";
 				INFOPLIST_FILE = "On the Map/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sergeykravtsov.On-the-Map";
@@ -422,7 +436,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "~/Documents/FacebookSDK";
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(PROJECT_DIR)/$(PROJECT_NAME)/Frameworks";
 				INFOPLIST_FILE = "On the Map/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sergeykravtsov.On-the-Map";
