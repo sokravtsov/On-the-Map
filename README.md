@@ -1,6 +1,14 @@
 # On-the-Map
 (Swift3, XCode8) Udacity's project from [iOS Developer Nanodegree](https://www.udacity.com/course/ios-developer-nanodegree--nd003)
 
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh1.jpeg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh2.jpeg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh3.jpeg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh4.jpeg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh5.jpeg)
+
+
+
 # Project Overview
 Students will create an app with a map that shows information posted by other students. The map will contain pins that show the location where other students have reported studying. By tapping on the pin users can see a URL for something the student finds interesting. The user will be able to add their own data by posting a string that can be geocoded to a location, and a URL.
 

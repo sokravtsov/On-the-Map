@@ -70,10 +70,12 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     
     @IBAction func refreshMap(_ sender: Any) {
         if Reachability.isConnectedToNetwork() {
-            self.mapView.removeAnnotations(ParseClient.sharedInstance.annotations)
-            StudentLocations.sharedInstance.studentLocations.removeAll()
-            ParseClient.sharedInstance.annotations.removeAll()
-            setupPinOnMap()
+            performUIUpdatesOnMain {
+                self.mapView.removeAnnotations(ParseClient.sharedInstance.annotations)
+                StudentLocations.sharedInstance.studentLocations.removeAll()
+                ParseClient.sharedInstance.annotations.removeAll()
+                self.setupPinOnMap()
+            }
         } else {
             self.showAlert(title: ParseClient.Str.noConnection, message: ParseClient.Str.checkConnection)
         }
@@ -82,13 +84,7 @@ class MapViewController : UIViewController, MKMapViewDelegate, CLLocationManager
     @IBAction func addPinOnMap(_ sender: Any) {
         
         if Reachability.isConnectedToNetwork() {
-            
-//            ParseClient.sharedInstance.getStudentLocations(withUniqueKey: ParseClient.sharedInstance.uniqueKey) {(results,error) in
-//                if error != nil {
-//                    print (error!)
-//                }
-//            }
-            
+
             if ParseClient.sharedInstance.objectID == nil {
                 self.performSegue(withIdentifier: "addPinFromMap", sender: self)
             } else {
