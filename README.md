@@ -1,11 +1,11 @@
 # On-the-Map
 (Swift3, XCode8) Udacity's project from [iOS Developer Nanodegree](https://www.udacity.com/course/ios-developer-nanodegree--nd003)
 
-![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh1.jpeg)
-![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh2.jpeg)
-![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh3.jpeg)
-![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh4.jpeg)
-![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh5.jpeg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh1.jpg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh2.jpg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh3.jpg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh4.jpg)
+![](https://raw.githubusercontent.com/sokravtsov/On-the-Map/master/Screenshots/sh5.jpg)
 
 
 
